@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "XZX",
+    "YAY",
+    "XYX"
+    ],
+  "key": {
+    "X": {
+      "item": "itemsrarity:manganese"
+    },
+    "Y": {
+      "item": "itemsrarity:sulfur"
+    },
+    "Z": {
+      "item": "itemsrarity:bismuth"
+    },
+    "A": {
+      "item": "minecraft:anvil"
+    }
+  },
+  "result":{
+    "item": "itemsrarity:enhanced_anvil_block"
+  }
+}
