@@ -6,14 +6,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import org.jetbrains.annotations.NotNull;
 
-public class SulfurItem extends Item {
+public class Flourite extends Item {
 
-    public SulfurItem(Properties pProperties) {
+    public Flourite(Properties pProperties) {
         super(pProperties);
     }
 
     @Override
     public @NotNull Rarity getRarity(@NotNull ItemStack itemStack) {
-        return ModRarities.RARE;
+        return ModRarities.ModRarity.RARE.getMinecraftRarity();
     }
 }

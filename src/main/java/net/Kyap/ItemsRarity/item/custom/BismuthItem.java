@@ -14,6 +14,6 @@ public class BismuthItem extends Item {
     
     @Override
     public @NotNull Rarity getRarity(@NotNull ItemStack itemStack) {
-        return ModRarities.EPIC;
+        return ModRarities.ModRarity.LEGENDARY.getMinecraftRarity();
     }
 }

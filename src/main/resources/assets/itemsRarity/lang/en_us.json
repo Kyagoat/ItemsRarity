@@ -2,13 +2,6 @@
   "creativemodetab.items_rarity_tab": "Items Rarity",
   "item.itemsrarity.sulfur": "Sulfur",
   "item.itemsrarity.bismuth": "Bismuth",
-  "block.itemsrarity.enhanced_anvil_block": "Enhanced Anvil",
-  
-  "rarity.itemsrarity.shadow.name": "Shadow",
-  "rarity.itemsrarity.fire.name": "Fire",
-  "rarity.itemsrarity.ice.name": "Ice",
-  "rarity.itemsrarity.nature.name": "Nature",
-  "rarity.itemsrarity.void.name": "Void",
-  "rarity.itemsrarity.radiant.name": "Radiant",
-  "rarity.itemsrarity.rainbow.name": "Rainbow"
+  "item.itemsrarity.flourite": "Flourite",
+  "block.itemsrarity.enhanced_anvil_block": "Enhanced Anvil"
 }

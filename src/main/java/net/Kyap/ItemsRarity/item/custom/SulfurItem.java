@@ -14,6 +14,6 @@ public class SulfurItem extends Item {
 
     @Override
     public @NotNull Rarity getRarity(@NotNull ItemStack itemStack) {
-        return ModRarities.RARE;
+        return ModRarities.ModRarity.EPIC.getMinecraftRarity();
     }
 }
