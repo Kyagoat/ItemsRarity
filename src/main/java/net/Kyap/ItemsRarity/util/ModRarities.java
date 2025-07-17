@@ -5,10 +5,26 @@ import com.obscuria.obscureapi.common.items.ObscureRarity;
 
 public class ModRarities {
 
-    public static final Rarity COMMON = Rarity.COMMON;
-    public static final Rarity UNCOMMON = Rarity.UNCOMMON;
-    public static final Rarity RARE = Rarity.RARE;
-    public static final Rarity EPIC = Rarity.EPIC;
-    public static final Rarity LEGENDARY = ObscureRarity.LEGENDARY;
-    public static final Rarity MYTHIC = ObscureRarity.MYTHIC;
+    public enum ModRarity {
+        COMMON(Rarity.COMMON),
+        UNCOMMON(Rarity.UNCOMMON),
+        RARE(Rarity.RARE),
+        EPIC(Rarity.EPIC),
+        LEGENDARY(ObscureRarity.LEGENDARY),
+        MYTHIC(ObscureRarity.MYTHIC);
+
+        private final Rarity minecraftRarity;
+
+        ModRarity(Rarity rarity) {
+            this.minecraftRarity = rarity;
+        }
+
+        public Rarity getMinecraftRarity() {
+            return minecraftRarity;
+        }
+    }
+
+    public static boolean isRarityUpgradable(ModRarity rarity) {
+        return rarity != ModRarity.MYTHIC;
+    }
 }
