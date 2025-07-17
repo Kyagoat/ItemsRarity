@@ -19,6 +19,7 @@ public class ItemsRarityCreativeTabs {
             .icon(() -> new ItemStack(ModItems.BISMUTH.get()))
             .title(Component.translatable("creativemodetab.items_rarity_tab"))
             .displayItems((parameters, output) -> {
+                output.accept(ModItems.FLOURITE.get());
                 output.accept(ModItems.SULFUR.get());
                 output.accept(ModItems.BISMUTH.get());
                 output.accept(ModBlocks.ENHANCED_ANVIL_BLOCK.get());
