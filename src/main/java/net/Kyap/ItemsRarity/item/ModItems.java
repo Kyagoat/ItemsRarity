@@ -2,6 +2,8 @@ package net.Kyap.ItemsRarity.item;
 
 import net.Kyap.ItemsRarity.ItemsRarity;
 import net.Kyap.ItemsRarity.item.custom.BismuthItem;
+import net.Kyap.ItemsRarity.item.custom.Flourite;
+import net.Kyap.ItemsRarity.item.custom.SulfurItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -13,10 +15,13 @@ public class ModItems {
             DeferredRegister.create(ForgeRegistries.ITEMS, ItemsRarity.MOD_ID);
 
     public static final RegistryObject<Item> SULFUR =
-            ITEMS.register("sulfur", () -> new Item(new Item.Properties()));
+            ITEMS.register("sulfur", () -> new SulfurItem(new Item.Properties()));
 
     public static final RegistryObject<Item> BISMUTH =
             ITEMS.register("bismuth", () -> new BismuthItem(new Item.Properties()));
+
+    public static final RegistryObject<Item> FLOURITE =
+            ITEMS.register("flourite", () -> new Flourite(new Item.Properties()));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
