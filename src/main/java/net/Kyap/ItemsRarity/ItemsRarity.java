@@ -2,8 +2,12 @@ package net.Kyap.ItemsRarity;
 
 import com.mojang.logging.LogUtils;
 import net.Kyap.ItemsRarity.block.ModBlocks;
+import net.Kyap.ItemsRarity.block.entity.ModBlockEntities;
 import net.Kyap.ItemsRarity.item.ItemsRarityCreativeTabs;
 import net.Kyap.ItemsRarity.item.ModItems;
+import net.Kyap.ItemsRarity.screen.EnhancedAnvilBlockScreen;
+import net.Kyap.ItemsRarity.screen.ModMenuTypes;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -27,7 +31,8 @@ public class ItemsRarity {
         ItemsRarityCreativeTabs.register(modEventBus);
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
-
+        ModBlockEntities.register(modEventBus);
+        ModMenuTypes.register(modEventBus);
         modEventBus.addListener(this::commonSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
@@ -47,6 +52,7 @@ public class ItemsRarity {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
+            MenuScreens.register(ModMenuTypes.ENHANCED_ANVIL_MENU.get(), EnhancedAnvilBlockScreen::new);
         }
     }
 }

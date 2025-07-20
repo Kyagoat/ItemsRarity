@@ -1,12 +1,22 @@
 package net.Kyap.ItemsRarity.block.custom;
 
+import net.Kyap.ItemsRarity.block.entity.EnhancedAnvilBlockEntity;
+import net.Kyap.ItemsRarity.util.ModRarities;
 import net.Kyap.ItemsRarity.util.RarityManager;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
+import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -15,14 +25,31 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
 
 public class EnhancedAnvilBlock extends BaseEntityBlock {
 
     public static final VoxelShape SHAPE = makeShape();
+
+    public EnhancedAnvilBlock(Properties pProperties) {
+        super(pProperties);
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+        return SHAPE;
+    }
+
+    @Override
+    public RenderShape getRenderShape(BlockState pState) {
+        return RenderShape.MODEL;
+    }
 
     private static VoxelShape makeShape() {
         VoxelShape shape = Block.box(2, 0, 2, 14, 4, 14);
@@ -41,29 +68,326 @@ public class EnhancedAnvilBlock extends BaseEntityBlock {
         return shape;
     }
 
-    public EnhancedAnvilBlock(Properties properties) {
-        super(properties);
+    @Override
+    public @Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+        return new EnhancedAnvilBlockEntity(blockPos, blockState);
     }
 
     @Override
-    public VoxelShape getShape(BlockState p_60555_, BlockGetter p_60556_, BlockPos p_60557_, CollisionContext p_60558_) {
-        return SHAPE;
+    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+        if (!pLevel.isClientSide()) {
+            BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
+            if (blockEntity instanceof EnhancedAnvilBlockEntity enhancedAnvil) {
+                
+                // Vérifier si le joueur tient une plume
+                net.minecraft.world.item.ItemStack heldItem = pPlayer.getItemInHand(pHand);
+                boolean hasFeather = heldItem.getItem() == Items.FEATHER;
+                
+                System.out.println("DEBUG: Player has feather: " + hasFeather);
+                System.out.println("DEBUG: Held item: " + heldItem.getItem().getDescriptionId());
+                
+                if (hasFeather) {
+                    // Clic droit avec une plume = Améliorer l'item
+                    boolean canUpgrade = enhancedAnvil.canUpgrade();
+                    System.out.println("DEBUG: Can upgrade: " + canUpgrade);
+                    
+                    if (canUpgrade) {
+                        boolean success = enhancedAnvil.performUpgrade();
+                        System.out.println("DEBUG: Upgrade success: " + success);
+                        
+                        if (success) {
+                            // Créer des particules selon la rareté de l'item amélioré
+                            spawnRarityParticles(pLevel, pPos, enhancedAnvil);
+                            
+                            // Jouer des sons de forge réalistes
+                            pLevel.playSound(null, pPos, SoundEvents.ANVIL_USE, SoundSource.BLOCKS, 1.2f, 1.0f); // Son principal de marteau
+                            pLevel.playSound(null, pPos, SoundEvents.ANVIL_LAND, SoundSource.BLOCKS, 0.8f, 1.3f); // Impact métallique
+                            pLevel.playSound(null, pPos, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.BLOCKS, 0.6f, 1.5f); // Son de succès
+                            
+                            return InteractionResult.SUCCESS;
+                        } else {
+                            // Son d'échec
+                            pLevel.playSound(null, pPos, SoundEvents.ANVIL_DESTROY, SoundSource.BLOCKS, 0.5f, 0.8f);
+                            return InteractionResult.FAIL;
+                        }
+                    } else {
+                        System.out.println("DEBUG: Cannot upgrade - checking conditions...");
+                        // Debug des conditions
+                        ItemStack gearItem = enhancedAnvil.getItemHandler().getStackInSlot(1);
+                        ItemStack resourceItem = enhancedAnvil.getItemHandler().getStackInSlot(0);
+                        ItemStack modMaterialItem = enhancedAnvil.getItemHandler().getStackInSlot(2);
+                        
+                        System.out.println("DEBUG: Gear slot empty: " + gearItem.isEmpty());
+                        System.out.println("DEBUG: Resource slot empty: " + resourceItem.isEmpty());
+                        System.out.println("DEBUG: Mod material slot empty: " + modMaterialItem.isEmpty());
+                        
+                        if (!gearItem.isEmpty()) {
+                            System.out.println("DEBUG: Gear item: " + gearItem.getItem().getDescriptionId());
+                            System.out.println("DEBUG: Is upgradable: " + net.Kyap.ItemsRarity.util.RarityManager.isItemUpgradable(gearItem));
+                        }
+                        if (!resourceItem.isEmpty()) {
+                            System.out.println("DEBUG: Resource item: " + resourceItem.getItem().getDescriptionId());
+                            System.out.println("DEBUG: Is valid repair resource: " + net.Kyap.ItemsRarity.util.RarityManager.isValidRepairResource(gearItem, resourceItem));
+                        }
+                        if (!modMaterialItem.isEmpty()) {
+                            System.out.println("DEBUG: Mod material item: " + modMaterialItem.getItem().getDescriptionId());
+                            System.out.println("DEBUG: Is custom mod resource: " + net.Kyap.ItemsRarity.util.RarityManager.isCustomModResource(modMaterialItem));
+                        }
+                        
+                        return InteractionResult.FAIL;
+                    }
+                } else {
+                    // Clic droit normal = Ouvrir le menu
+                    NetworkHooks.openScreen((ServerPlayer) pPlayer, enhancedAnvil, pPos);
+                    return InteractionResult.SUCCESS;
+                }
+            }
+        }
+        return InteractionResult.sidedSuccess(pLevel.isClientSide());
     }
 
     @Override
-    public RenderShape getRenderShape(BlockState p_49232_) {
-        return RenderShape.MODEL;
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (state.getBlock() != newState.getBlock()) {
+            BlockEntity blockEntity = level.getBlockEntity(pos);
+            if (blockEntity instanceof EnhancedAnvilBlockEntity enhancedAnvil) {
+                // Droper les items quand le block est détruit
+                for (int i = 0; i < enhancedAnvil.getItemHandler().getSlots(); i++) {
+                    net.minecraft.world.Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), 
+                            enhancedAnvil.getItemHandler().getStackInSlot(i));
+                }
+            }
+        }
+        super.onRemove(state, level, pos, newState, isMoving);
     }
 
-    @Nullable
-    @Override
-    public BlockEntity newBlockEntity(BlockPos p_153215_, BlockState p_153216_) {
+    /**
+     * Crée des particules d'éclats métalliques autour de l'enclume comme si l'item était frappé
+     */
+    private void spawnRarityParticles(Level level, BlockPos pos, EnhancedAnvilBlockEntity anvil) {
+        if (!(level instanceof ServerLevel serverLevel)) {
+            return;
+        }
+
+        // Récupérer l'item du slot gear (milieu) pour déterminer sa rareté
+        ItemStack gearItem = anvil.getItemHandler().getStackInSlot(1);
+        if (gearItem.isEmpty()) {
+            return;
+        }
+
+        // Déterminer la couleur des particules selon la rareté
+        Vec3 particleColor = getParticleColorForRarity(gearItem);
+        
+        // Déterminer le nombre de particules selon la rareté
+        int particleMultiplier = getParticleMultiplierForRarity(gearItem);
+        
+        // Position de l'enclume (surface supérieure où l'item est frappé)
+        double centerX = pos.getX() + 0.5;
+        double centerY = pos.getY() + 1.0; // Surface de l'enclume
+        double centerZ = pos.getZ() + 0.5;
+
+        RandomSource random = level.getRandom();
+
+        // Créer des éclats de métal qui volent dans toutes les directions
+        // Plus la rareté est élevée, plus il y a de particules
+        for (int i = 0; i < 15 * particleMultiplier; i++) {
+            // Direction aléatoire pour les éclats
+            double velocityX = (random.nextDouble() - 0.5) * 0.4;
+            double velocityY = random.nextDouble() * 0.3 + 0.1; // Toujours vers le haut
+            double velocityZ = (random.nextDouble() - 0.5) * 0.4;
+            
+            // Position de départ légèrement aléatoire sur la surface de l'enclume
+            double startX = centerX + (random.nextDouble() - 0.5) * 0.3;
+            double startY = centerY + random.nextDouble() * 0.1;
+            double startZ = centerZ + (random.nextDouble() - 0.5) * 0.3;
+
+            // Petites particules d'éclats métalliques colorées
+            DustParticleOptions dustOptions = new DustParticleOptions(
+                new Vector3f(
+                    (float) particleColor.x, 
+                    (float) particleColor.y, 
+                    (float) particleColor.z
+                ), 
+                0.5f // Taille plus petite pour des éclats
+            );
+
+            serverLevel.sendParticles(
+                dustOptions,
+                startX, startY, startZ,
+                1, // count
+                velocityX, velocityY, velocityZ, // velocities as spread
+                0.2 // speed multiplier
+            );
+        }
+
+        // Ajouter des particules de crit pour l'effet d'impact
+        for (int i = 0; i < 6 * particleMultiplier; i++) {
+            double offsetX = (random.nextDouble() - 0.5) * 0.6;
+            double offsetY = random.nextDouble() * 0.2;
+            double offsetZ = (random.nextDouble() - 0.5) * 0.6;
+            
+            serverLevel.sendParticles(
+                ParticleTypes.CRIT,
+                centerX + offsetX, centerY + offsetY, centerZ + offsetZ,
+                1,
+                (random.nextDouble() - 0.5) * 0.3, // velocity X
+                random.nextDouble() * 0.2 + 0.1,   // velocity Y
+                (random.nextDouble() - 0.5) * 0.3, // velocity Z
+                0.15
+            );
+        }
+
+        // Quelques particules d'étincelles pour l'effet de forge
+        for (int i = 0; i < 4 * particleMultiplier; i++) {
+            double offsetX = (random.nextDouble() - 0.5) * 0.4;
+            double offsetY = random.nextDouble() * 0.3;
+            double offsetZ = (random.nextDouble() - 0.5) * 0.4;
+            
+            serverLevel.sendParticles(
+                ParticleTypes.LAVA,
+                centerX + offsetX, centerY + offsetY, centerZ + offsetZ,
+                1,
+                (random.nextDouble() - 0.5) * 0.2,
+                random.nextDouble() * 0.15,
+                (random.nextDouble() - 0.5) * 0.2,
+                0.1
+            );
+        }
+
+        // Pour les raretés très élevées, ajouter des particules spéciales
+        if (particleMultiplier >= 3) { // LEGENDARY et MYTHIC
+            // Particules d'enchantement supplémentaires
+            for (int i = 0; i < 10 * (particleMultiplier - 2); i++) {
+                double offsetX = (random.nextDouble() - 0.5);
+                double offsetY = random.nextDouble() * 0.5;
+                double offsetZ = (random.nextDouble() - 0.5);
+                
+                serverLevel.sendParticles(
+                    ParticleTypes.ENCHANT,
+                    centerX + offsetX, centerY + offsetY, centerZ + offsetZ,
+                    1,
+                    (random.nextDouble() - 0.5) * 0.1,
+                    random.nextDouble() * 0.1,
+                    (random.nextDouble() - 0.5) * 0.1,
+                    0.05
+                );
+            }
+        }
+
+        if (particleMultiplier >= 4) { // MYTHIC seulement
+            // Explosion de particules tourbillonnantes pour MYTHIC
+            for (int i = 0; i < 20; i++) {
+                double angle = (i * Math.PI * 2) / 10.0;
+                double radius = 0.8 + random.nextDouble() * 0.4;
+                
+                double offsetX = Math.cos(angle) * radius;
+                double offsetZ = Math.sin(angle) * radius;
+                double offsetY = random.nextDouble() * 0.8;
+                
+                serverLevel.sendParticles(
+                    ParticleTypes.DRAGON_BREATH,
+                    centerX + offsetX, centerY + offsetY, centerZ + offsetZ,
+                    1,
+                    -offsetX * 0.1, // Velocity vers le centre
+                    random.nextDouble() * 0.1,
+                    -offsetZ * 0.1,
+                    0.02
+                );
+            }
+        }
+    }
+
+    /**
+     * Détermine la couleur des particules selon la rareté de l'item
+     */
+    private Vec3 getParticleColorForRarity(net.minecraft.world.item.ItemStack stack) {
+        // Vérifier d'abord si l'item a une rareté personnalisée
+        if (net.Kyap.ItemsRarity.item.ItemTransformationManager.isTransformedItem(stack)) {
+            ModRarities.ModRarity customRarity = net.Kyap.ItemsRarity.item.ItemTransformationManager.getCurrentRarity(stack);
+            if (customRarity != null) {
+                return switch (customRarity) {
+                    case COMMON -> new Vec3(0.6, 0.6, 0.6);      // Gris
+                    case UNCOMMON -> new Vec3(0.2, 0.8, 0.2);    // Vert
+                    case RARE -> new Vec3(0.2, 0.2, 1.0);        // Bleu
+                    case EPIC -> new Vec3(1.0, 1.0, 0.0);        // Jaune
+                    case LEGENDARY -> new Vec3(1.0, 0.5, 0.0);   // Orange
+                    case MYTHIC -> new Vec3(1.0, 0.0, 0.0);      // Rouge
+                };
+            }
+        }
+
+        // Sinon utiliser la rareté vanilla de l'item
+        Rarity rarity = stack.getRarity();
+        return switch (rarity) {
+            case COMMON -> new Vec3(0.6, 0.6, 0.6);      // Gris
+            case UNCOMMON -> new Vec3(0.2, 0.8, 0.2);    // Vert
+            case RARE -> new Vec3(0.2, 0.2, 1.0);        // Bleu
+            case EPIC -> new Vec3(1.0, 0.0, 1.0);        // Violet/Magenta
+        };
+    }
+
+    /**
+     * Détermine le multiplicateur de particules selon la rareté de l'item
+     * Plus la rareté est élevée, plus il y a de particules
+     */
+    private int getParticleMultiplierForRarity(net.minecraft.world.item.ItemStack stack) {
+        // Vérifier d'abord si l'item a une rareté personnalisée
+        if (net.Kyap.ItemsRarity.item.ItemTransformationManager.isTransformedItem(stack)) {
+            ModRarities.ModRarity customRarity = net.Kyap.ItemsRarity.item.ItemTransformationManager.getCurrentRarity(stack);
+            if (customRarity != null) {
+                return switch (customRarity) {
+                    case COMMON -> 1;      // 15 particules de base
+                    case UNCOMMON -> 1;    // 15 particules  
+                    case RARE -> 2;        // 30 particules
+                    case EPIC -> 2;        // 30 particules
+                    case LEGENDARY -> 3;   // 45 particules + effets spéciaux
+                    case MYTHIC -> 4;      // 60 particules + tous les effets spéciaux
+                };
+            }
+        }
+
+        // Sinon utiliser la rareté vanilla de l'item
+        Rarity rarity = stack.getRarity();
+        return switch (rarity) {
+            case COMMON -> 1;      // 15 particules de base
+            case UNCOMMON -> 1;    // 15 particules
+            case RARE, EPIC -> 2;        // 30 particules
+        };
+    }
+
+    /**
+     * Helper pour obtenir la rareté actuelle d'un item
+     */
+    private net.Kyap.ItemsRarity.util.ModRarities.ModRarity getCurrentRarityForItem(net.minecraft.world.item.ItemStack stack) {
+        if (net.Kyap.ItemsRarity.item.ItemTransformationManager.isTransformedItem(stack)) {
+            return net.Kyap.ItemsRarity.item.ItemTransformationManager.getCurrentRarity(stack);
+        }
+        
+        // Convertir depuis la rareté Minecraft
+        for (net.Kyap.ItemsRarity.util.ModRarities.ModRarity modRarity : net.Kyap.ItemsRarity.util.ModRarities.ModRarity.values()) {
+            if (modRarity.getMinecraftRarity().equals(stack.getRarity())) {
+                return modRarity;
+            }
+        }
+        return net.Kyap.ItemsRarity.util.ModRarities.ModRarity.COMMON;
+    }
+    
+    /**
+     * Helper pour obtenir la prochaine rareté possible avec une ressource
+     */
+    private net.Kyap.ItemsRarity.util.ModRarities.ModRarity getNextRarityForItem(net.Kyap.ItemsRarity.util.ModRarities.ModRarity currentRarity, net.minecraft.world.item.ItemStack resourceStack) {
+        if (currentRarity == null) return null;
+        
+        net.Kyap.ItemsRarity.util.ModRarities.ModRarity[] rarities = net.Kyap.ItemsRarity.util.ModRarities.ModRarity.values();
+        for (int i = 0; i < rarities.length - 1; i++) {
+            if (rarities[i] == currentRarity) {
+                net.Kyap.ItemsRarity.util.ModRarities.ModRarity nextRarity = rarities[i + 1];
+                
+                // Retourner la prochaine rareté (la validation sera faite ailleurs)
+                return nextRarity;
+            }
+        }
         return null;
     }
-
-
-    @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, net.minecraft.world.entity.player.Player player, InteractionHand hand, BlockHitResult hit) {
-        return InteractionResult.SUCCESS;
-    }
 }
+
