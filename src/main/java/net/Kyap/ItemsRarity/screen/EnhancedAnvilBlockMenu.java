@@ -33,9 +33,9 @@ public class EnhancedAnvilBlockMenu extends AbstractContainerMenu {
         addPlayerInventory(pInventory);
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER)
                 .ifPresent(itemHandler -> {
-                    this.addSlot(new SlotItemHandler(itemHandler, 0, 44, 35));
-                    this.addSlot(new SlotItemHandler(itemHandler, 1, 80, 35));
-                    this.addSlot(new SlotItemHandler(itemHandler, 2, 116, 35));
+                    this.addSlot(new SlotItemHandler(itemHandler, 0, 44, 55));
+                    this.addSlot(new SlotItemHandler(itemHandler, 1, 80, 20));
+                    this.addSlot(new SlotItemHandler(itemHandler, 2, 116, 25));
                 });
         addDataSlots(data);
     }

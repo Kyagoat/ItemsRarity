@@ -23,8 +23,4 @@ public class ModRarities {
             return minecraftRarity;
         }
     }
-
-    public static boolean isRarityUpgradable(ModRarity rarity) {
-        return rarity != ModRarity.MYTHIC;
-    }
 }

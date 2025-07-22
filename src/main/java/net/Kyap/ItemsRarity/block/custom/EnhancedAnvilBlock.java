@@ -80,21 +80,13 @@ public class EnhancedAnvilBlock extends BaseEntityBlock {
             if (blockEntity instanceof EnhancedAnvilBlockEntity enhancedAnvil) {
                 
                 // Vérifier si le joueur tient une plume
-                net.minecraft.world.item.ItemStack heldItem = pPlayer.getItemInHand(pHand);
+                ItemStack heldItem = pPlayer.getItemInHand(pHand);
                 boolean hasFeather = heldItem.getItem() == Items.FEATHER;
-                
-                System.out.println("DEBUG: Player has feather: " + hasFeather);
-                System.out.println("DEBUG: Held item: " + heldItem.getItem().getDescriptionId());
-                
                 if (hasFeather) {
                     // Clic droit avec une plume = Améliorer l'item
                     boolean canUpgrade = enhancedAnvil.canUpgrade();
-                    System.out.println("DEBUG: Can upgrade: " + canUpgrade);
-                    
                     if (canUpgrade) {
                         boolean success = enhancedAnvil.performUpgrade();
-                        System.out.println("DEBUG: Upgrade success: " + success);
-                        
                         if (success) {
                             // Créer des particules selon la rareté de l'item amélioré
                             spawnRarityParticles(pLevel, pPos, enhancedAnvil);
@@ -111,33 +103,13 @@ public class EnhancedAnvilBlock extends BaseEntityBlock {
                             return InteractionResult.FAIL;
                         }
                     } else {
-                        System.out.println("DEBUG: Cannot upgrade - checking conditions...");
-                        // Debug des conditions
                         ItemStack gearItem = enhancedAnvil.getItemHandler().getStackInSlot(1);
                         ItemStack resourceItem = enhancedAnvil.getItemHandler().getStackInSlot(0);
                         ItemStack modMaterialItem = enhancedAnvil.getItemHandler().getStackInSlot(2);
-                        
-                        System.out.println("DEBUG: Gear slot empty: " + gearItem.isEmpty());
-                        System.out.println("DEBUG: Resource slot empty: " + resourceItem.isEmpty());
-                        System.out.println("DEBUG: Mod material slot empty: " + modMaterialItem.isEmpty());
-                        
-                        if (!gearItem.isEmpty()) {
-                            System.out.println("DEBUG: Gear item: " + gearItem.getItem().getDescriptionId());
-                            System.out.println("DEBUG: Is upgradable: " + net.Kyap.ItemsRarity.util.RarityManager.isItemUpgradable(gearItem));
-                        }
-                        if (!resourceItem.isEmpty()) {
-                            System.out.println("DEBUG: Resource item: " + resourceItem.getItem().getDescriptionId());
-                            System.out.println("DEBUG: Is valid repair resource: " + net.Kyap.ItemsRarity.util.RarityManager.isValidRepairResource(gearItem, resourceItem));
-                        }
-                        if (!modMaterialItem.isEmpty()) {
-                            System.out.println("DEBUG: Mod material item: " + modMaterialItem.getItem().getDescriptionId());
-                            System.out.println("DEBUG: Is custom mod resource: " + net.Kyap.ItemsRarity.util.RarityManager.isCustomModResource(modMaterialItem));
-                        }
-                        
+
                         return InteractionResult.FAIL;
                     }
                 } else {
-                    // Clic droit normal = Ouvrir le menu
                     NetworkHooks.openScreen((ServerPlayer) pPlayer, enhancedAnvil, pPos);
                     return InteractionResult.SUCCESS;
                 }
@@ -153,7 +125,7 @@ public class EnhancedAnvilBlock extends BaseEntityBlock {
             if (blockEntity instanceof EnhancedAnvilBlockEntity enhancedAnvil) {
                 // Droper les items quand le block est détruit
                 for (int i = 0; i < enhancedAnvil.getItemHandler().getSlots(); i++) {
-                    net.minecraft.world.Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), 
+                    net.minecraft.world.Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(),
                             enhancedAnvil.getItemHandler().getStackInSlot(i));
                 }
             }
@@ -300,20 +272,19 @@ public class EnhancedAnvilBlock extends BaseEntityBlock {
     /**
      * Détermine la couleur des particules selon la rareté de l'item
      */
-    private Vec3 getParticleColorForRarity(net.minecraft.world.item.ItemStack stack) {
+    private Vec3 getParticleColorForRarity(ItemStack stack) {
         // Vérifier d'abord si l'item a une rareté personnalisée
-        if (net.Kyap.ItemsRarity.item.ItemTransformationManager.isTransformedItem(stack)) {
-            ModRarities.ModRarity customRarity = net.Kyap.ItemsRarity.item.ItemTransformationManager.getCurrentRarity(stack);
-            if (customRarity != null) {
-                return switch (customRarity) {
-                    case COMMON -> new Vec3(0.6, 0.6, 0.6);      // Gris
-                    case UNCOMMON -> new Vec3(0.2, 0.8, 0.2);    // Vert
-                    case RARE -> new Vec3(0.2, 0.2, 1.0);        // Bleu
-                    case EPIC -> new Vec3(1.0, 1.0, 0.0);        // Jaune
-                    case LEGENDARY -> new Vec3(1.0, 0.5, 0.0);   // Orange
-                    case MYTHIC -> new Vec3(1.0, 0.0, 0.0);      // Rouge
-                };
-            }
+        if (stack.hasTag() && stack.getTag().contains("custom_rarity")) {
+            String customRarityName = stack.getTag().getString("custom_rarity");
+            return switch (customRarityName) {
+                case "common" -> new Vec3(0.6, 0.6, 0.6);      // Gris
+                case "uncommon" -> new Vec3(0.2, 0.8, 0.2);    // Vert
+                case "rare" -> new Vec3(0.2, 0.2, 1.0);        // Bleu
+                case "epic" -> new Vec3(1.0, 1.0, 0.0);        // Jaune
+                case "legendary" -> new Vec3(1.0, 0.5, 0.0);   // Orange
+                case "mythic" -> new Vec3(1.0, 0.0, 0.0);      // Rouge
+                default -> throw new IllegalStateException("Unexpected value: " + customRarityName);
+            };
         }
 
         // Sinon utiliser la rareté vanilla de l'item
@@ -332,18 +303,17 @@ public class EnhancedAnvilBlock extends BaseEntityBlock {
      */
     private int getParticleMultiplierForRarity(net.minecraft.world.item.ItemStack stack) {
         // Vérifier d'abord si l'item a une rareté personnalisée
-        if (net.Kyap.ItemsRarity.item.ItemTransformationManager.isTransformedItem(stack)) {
-            ModRarities.ModRarity customRarity = net.Kyap.ItemsRarity.item.ItemTransformationManager.getCurrentRarity(stack);
-            if (customRarity != null) {
-                return switch (customRarity) {
-                    case COMMON -> 1;      // 15 particules de base
-                    case UNCOMMON -> 1;    // 15 particules  
-                    case RARE -> 2;        // 30 particules
-                    case EPIC -> 2;        // 30 particules
-                    case LEGENDARY -> 3;   // 45 particules + effets spéciaux
-                    case MYTHIC -> 4;      // 60 particules + tous les effets spéciaux
-                };
-            }
+        if (stack.hasTag() && stack.getTag().contains("custom_rarity")) {
+            String customRarityName = stack.getTag().getString("custom_rarity");
+            return switch (customRarityName) {
+                case "common" -> 1;      // 15 particules de base
+                case "uncommon" -> 1;    // 15 particules
+                case "rare" -> 2;        // 30 particules
+                case "epic" -> 2;        // 30 particules
+                case "legendary" -> 3;   // 45 particules
+                case "mythic" -> 4;      // 60 particules
+                default -> throw new IllegalStateException("Unexpected value: " + customRarityName);
+            };
         }
 
         // Sinon utiliser la rareté vanilla de l'item
@@ -353,41 +323,6 @@ public class EnhancedAnvilBlock extends BaseEntityBlock {
             case UNCOMMON -> 1;    // 15 particules
             case RARE, EPIC -> 2;        // 30 particules
         };
-    }
-
-    /**
-     * Helper pour obtenir la rareté actuelle d'un item
-     */
-    private net.Kyap.ItemsRarity.util.ModRarities.ModRarity getCurrentRarityForItem(net.minecraft.world.item.ItemStack stack) {
-        if (net.Kyap.ItemsRarity.item.ItemTransformationManager.isTransformedItem(stack)) {
-            return net.Kyap.ItemsRarity.item.ItemTransformationManager.getCurrentRarity(stack);
-        }
-        
-        // Convertir depuis la rareté Minecraft
-        for (net.Kyap.ItemsRarity.util.ModRarities.ModRarity modRarity : net.Kyap.ItemsRarity.util.ModRarities.ModRarity.values()) {
-            if (modRarity.getMinecraftRarity().equals(stack.getRarity())) {
-                return modRarity;
-            }
-        }
-        return net.Kyap.ItemsRarity.util.ModRarities.ModRarity.COMMON;
-    }
-    
-    /**
-     * Helper pour obtenir la prochaine rareté possible avec une ressource
-     */
-    private net.Kyap.ItemsRarity.util.ModRarities.ModRarity getNextRarityForItem(net.Kyap.ItemsRarity.util.ModRarities.ModRarity currentRarity, net.minecraft.world.item.ItemStack resourceStack) {
-        if (currentRarity == null) return null;
-        
-        net.Kyap.ItemsRarity.util.ModRarities.ModRarity[] rarities = net.Kyap.ItemsRarity.util.ModRarities.ModRarity.values();
-        for (int i = 0; i < rarities.length - 1; i++) {
-            if (rarities[i] == currentRarity) {
-                net.Kyap.ItemsRarity.util.ModRarities.ModRarity nextRarity = rarities[i + 1];
-                
-                // Retourner la prochaine rareté (la validation sera faite ailleurs)
-                return nextRarity;
-            }
-        }
-        return null;
     }
 }
 

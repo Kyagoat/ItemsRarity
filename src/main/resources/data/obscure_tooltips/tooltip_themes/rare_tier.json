@@ -1,9 +1,0 @@
-{
-  "priority": 200,
-  "panel": "obscure_tooltips:rare",
-  "frame": "obscure_tooltips:rare",
-  "icon": "obscure_tooltips:rare",
-  "filter": {
-    "rarity": "rare"
-  }
-}
