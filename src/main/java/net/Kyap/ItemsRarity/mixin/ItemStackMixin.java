@@ -1,5 +1,6 @@
 package net.Kyap.ItemsRarity.mixin;
 
+import net.Kyap.ItemsRarity.util.ModRarities;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,15 +17,15 @@ public class ItemStackMixin {
 
         if (stack.hasTag()) {
             assert stack.getTag() != null;
-            if (stack.getTag().contains("rarity")) {
-                String rarityId = stack.getTag().getString("rarity").toLowerCase();
-
+            if (stack.getTag().contains("custom_rarity")) {
+                String rarityId = stack.getTag().getString("custom_rarity").toLowerCase();
+                System.out.println("Custom rarity found: " + rarityId);
                 Rarity rarity = switch (rarityId) {
                     case "uncommon" -> Rarity.UNCOMMON;
                     case "rare" -> Rarity.RARE;
                     case "epic" -> Rarity.EPIC;
-                    case "legendary" -> Rarity.EPIC; // Ou ta rareté custom si elle existe
-                    case "mythic" -> Rarity.EPIC;   // Idem
+                    case "legendary" -> ModRarities.ModRarity.LEGENDARY.getRarity(); // ObscureRarity.LEGENDARY
+                    case "mythic" -> ModRarities.ModRarity.MYTHIC.getRarity();   // Idem
                     default -> Rarity.COMMON;
                 };
 

@@ -18,6 +18,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
+import org.spongepowered.asm.launch.MixinBootstrap;
+import org.spongepowered.asm.mixin.Mixins;
 
 @Mod(ItemsRarity.MOD_ID)
 public class ItemsRarity {
@@ -27,7 +29,8 @@ public class ItemsRarity {
     public ItemsRarity(FMLJavaModLoadingContext context) {
         
         IEventBus modEventBus = context.getModEventBus();
-
+        MixinBootstrap.init();
+        Mixins.addConfiguration("mixins.itemsrarity.json");
         ItemsRarityCreativeTabs.register(modEventBus);
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);

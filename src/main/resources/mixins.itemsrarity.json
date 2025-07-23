@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.Kyap.ItemsRarity.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "mixins.itemsrarity.refmap.json",
+  "client": [
+
+  ],
+  "server": [
+
+  ],
+  "mixins": [
+    "ItemStackMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
