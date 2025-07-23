@@ -37,11 +37,6 @@ public class EnhancedAnvilBlockEntity extends BlockEntity implements MenuProvide
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
-
-            if (level != null && !level.isClientSide()) {
-                spawnSlotChangeParticles(slot);
-            }
-
             super.onContentsChanged(slot);
         }
 
@@ -210,43 +205,5 @@ public class EnhancedAnvilBlockEntity extends BlockEntity implements MenuProvide
     public void load(CompoundTag pTag) {
         super.load(pTag);
         item_handler.deserializeNBT(pTag.getCompound("inventory"));
-    }
-
-    /**
-     * Crée de petites particules quand un item est placé dans un slot
-     */
-    private void spawnSlotChangeParticles(int slot) {
-        if (level == null || level.isClientSide()) {
-            return;
-        }
-
-        // Position légèrement différente selon le slot
-        double offsetX = switch (slot) {
-            case 0 -> -0.3; // Slot de gauche
-            case 1 -> 0.0;  // Slot du milieu
-            case 2 -> 0.3;  // Slot de droite
-            default -> 0.0;
-        };
-
-        double particleX = worldPosition.getX() + 0.5 + offsetX;
-        double particleY = worldPosition.getY() + 1.2;
-        double particleZ = worldPosition.getZ() + 0.5;
-
-        // Créer quelques particules d'enchantement
-        if (level instanceof net.minecraft.server.level.ServerLevel serverLevel) {
-            serverLevel.sendParticles(
-                    net.minecraft.core.particles.ParticleTypes.ENCHANT,
-                    particleX, particleY, particleZ,
-                    5, // count
-                    0.2, 0.1, 0.2, // spread
-                    0.1 // speed
-            );
-
-            // Son léger de placement
-            level.playSound(null, worldPosition,
-                    net.minecraft.sounds.SoundEvents.ITEM_PICKUP,
-                    net.minecraft.sounds.SoundSource.BLOCKS,
-                    0.3f, 1.0f + (slot * 0.1f));
-        }
     }
 }
