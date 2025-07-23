@@ -1,5 +1,8 @@
 package net.Kyap.ItemsRarity.util;
 import net.Kyap.ItemsRarity.item.ModItems;
+import net.Kyap.ItemsRarity.item.custom.BismuthItem;
+import net.Kyap.ItemsRarity.item.custom.FlouriteItem;
+import net.Kyap.ItemsRarity.item.custom.SulfurItem;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -91,25 +94,24 @@ public class RarityManager {
      * Plus le tier est élevé, plus c'est rare à obtenir
      */
 
-    public static String rollNewTier(ItemStack resourceStack) {
-        String itemId = resourceStack.getItem().getDescriptionId();
+    public static String rollNewTier(ItemStack stack) {
+        Item item = stack.getItem();
         double roll = ThreadLocalRandom.current().nextDouble();
-
-        if (itemId.contains("bismuth")) {
-            if (roll < 0.40) return "rare";
-            else if (roll < 0.75) return "epic";
-            else if (roll < 0.95) return "legendary";
-            else return "mythic";
-        } else if (itemId.contains("sulfur")) {
-            if (roll < 0.50) return "uncommon";
-            else if (roll < 0.80) return "rare";
-            else if (roll < 0.95) return "epic";
-            else return "legendary";
-        } else if (itemId.contains("flourite")) {
-            if (roll < 0.70) return "uncommon";
-            else if (roll < 0.95) return "rare";
-            else return "epic";
+        if (item instanceof BismuthItem) {
+            if (roll < 0.40) return ModRarities.ModRarity.RARE.getId();
+            else if (roll < 0.90) return ModRarities.ModRarity.EPIC.getId();
+            else if (roll < 0.99) return ModRarities.ModRarity.LEGENDARY.getId();
+            else return ModRarities.ModRarity.MYTHIC.getId();
+        } else if (item instanceof SulfurItem) {
+            if (roll < 0.50) return ModRarities.ModRarity.UNCOMMON.getId();
+            else if (roll < 0.80) return ModRarities.ModRarity.RARE.getId();
+            else if (roll < 0.95) return ModRarities.ModRarity.EPIC.getId();
+            else return ModRarities.ModRarity.LEGENDARY.getId();
+        } else if (item instanceof FlouriteItem) {
+            if (roll < 0.70) return ModRarities.ModRarity.UNCOMMON.getId();
+            else if (roll < 0.95) return ModRarities.ModRarity.RARE.getId();
+            else return ModRarities.ModRarity.EPIC.getId();
         }
-        return null; // échec du roll
+        return null;
     }
 }
