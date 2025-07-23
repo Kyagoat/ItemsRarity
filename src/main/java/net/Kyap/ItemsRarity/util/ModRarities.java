@@ -6,25 +6,35 @@ import com.obscuria.obscureapi.common.items.ObscureRarity;
 public class ModRarities {
 
     public enum ModRarity {
-        COMMON(Rarity.COMMON),
-        UNCOMMON(Rarity.UNCOMMON),
-        RARE(Rarity.RARE),
-        EPIC(Rarity.EPIC),
-        LEGENDARY(ObscureRarity.LEGENDARY),
-        MYTHIC(ObscureRarity.MYTHIC);
+        COMMON("common", Rarity.COMMON),
+        UNCOMMON("uncommon", Rarity.UNCOMMON),
+        RARE("rare", Rarity.RARE),
+        EPIC("epic", Rarity.EPIC),
+        LEGENDARY("legendary", ObscureRarity.LEGENDARY),
+        MYTHIC("mythic", ObscureRarity.MYTHIC);
 
-        private final Rarity minecraftRarity;
+        private final String id;
+        private final Rarity rarity;
 
-        ModRarity(Rarity rarity) {
-            this.minecraftRarity = rarity;
+        ModRarity(String id, Rarity rarity) {
+            this.id = id;
+            this.rarity = rarity;
         }
 
-        public Rarity getMinecraftRarity() {
-            return minecraftRarity;
+        public String getId() {
+            return id;
         }
-    }
 
-    public static boolean isRarityUpgradable(ModRarity rarity) {
-        return rarity != ModRarity.MYTHIC;
+        public Rarity getRarity() {
+            return rarity;
+        }
+
+        // Pour retrouver un ModRarity depuis un tag (ex: "epic")
+        public static ModRarity fromId(String id) {
+            for (ModRarity r : values()) {
+                if (r.id.equalsIgnoreCase(id)) return r;
+            }
+            return null;
+        }
     }
 }
