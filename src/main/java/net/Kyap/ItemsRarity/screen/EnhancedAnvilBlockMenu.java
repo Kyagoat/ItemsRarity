@@ -33,23 +33,19 @@ public class EnhancedAnvilBlockMenu extends AbstractContainerMenu {
         addPlayerInventory(pInventory);
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER)
                 .ifPresent(itemHandler -> {
-                    this.addSlot(new SlotItemHandler(itemHandler, 0, 44, 55));
-                    this.addSlot(new SlotItemHandler(itemHandler, 1, 80, 20));
-                    this.addSlot(new SlotItemHandler(itemHandler, 2, 116, 25));
+                    this.addSlot(new SlotItemHandler(itemHandler, 0, 27, 47));
+                    this.addSlot(new SlotItemHandler(itemHandler, 1, 79, 16));
+                    this.addSlot(new SlotItemHandler(itemHandler, 2, 134, 47));
                 });
         addDataSlots(data);
     }
 
     private static final int HOTBAR_SLOT_COUNT = 9;
-    private static final int PLAYER_INVENTORY_ROW_COUNT = 3;
-    private static final int PLAYER_INVENTORY_COLUMN_COUNT = 9;
-    private static final int PLAYER_INVENTORY_SLOT_COUNT = PLAYER_INVENTORY_COLUMN_COUNT * PLAYER_INVENTORY_ROW_COUNT;
-    private static final int VANILLA_SLOT_COUNT = HOTBAR_SLOT_COUNT + PLAYER_INVENTORY_SLOT_COUNT;
+    private static final int PLAYER_INVENTORY_SLOT_COUNT = 27;
+    private static final int VANILLA_SLOT_COUNT = HOTBAR_SLOT_COUNT + PLAYER_INVENTORY_SLOT_COUNT; // = 36
     private static final int VANILLA_FIRST_SLOT_INDEX = 0;
-    private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
-
-    // THIS YOU HAVE TO DEFINE!
-    private static final int TE_INVENTORY_SLOT_COUNT = 3;  // must be the number of slots you have!
+    private static final int TE_INVENTORY_FIRST_SLOT_INDEX = 36; // Les slots du block entity commencent à 36
+    private static final int TE_INVENTORY_SLOT_COUNT = 3;
     @Override
     public ItemStack quickMoveStack(Player playerIn, int pIndex) {
         Slot sourceSlot = slots.get(pIndex);
