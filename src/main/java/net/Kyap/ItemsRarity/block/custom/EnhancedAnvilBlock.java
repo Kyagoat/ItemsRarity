@@ -1,8 +1,6 @@
 package net.Kyap.ItemsRarity.block.custom;
 
 import net.Kyap.ItemsRarity.block.entity.EnhancedAnvilBlockEntity;
-import net.Kyap.ItemsRarity.util.ModRarities;
-import net.Kyap.ItemsRarity.util.RarityManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -103,10 +101,6 @@ public class EnhancedAnvilBlock extends BaseEntityBlock {
                             return InteractionResult.FAIL;
                         }
                     } else {
-                        ItemStack gearItem = enhancedAnvil.getItemHandler().getStackInSlot(1);
-                        ItemStack resourceItem = enhancedAnvil.getItemHandler().getStackInSlot(0);
-                        ItemStack modMaterialItem = enhancedAnvil.getItemHandler().getStackInSlot(2);
-
                         return InteractionResult.FAIL;
                     }
                 } else {

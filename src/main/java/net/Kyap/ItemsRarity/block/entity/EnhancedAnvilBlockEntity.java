@@ -1,7 +1,6 @@
 package net.Kyap.ItemsRarity.block.entity;
 
 import net.Kyap.ItemsRarity.screen.EnhancedAnvilBlockMenu;
-import net.Kyap.ItemsRarity.util.ModRarities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
