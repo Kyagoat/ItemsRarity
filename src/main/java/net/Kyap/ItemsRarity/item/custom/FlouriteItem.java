@@ -14,6 +14,6 @@ public class FlouriteItem extends Item {
 
     @Override
     public @NotNull Rarity getRarity(@NotNull ItemStack itemStack) {
-        return ModRarities.ModRarity.RARE.getMinecraftRarity();
+        return ModRarities.ModRarity.RARE.getRarity();
     }
 }
