@@ -3,11 +3,13 @@ package net.Kyap.ItemsRarity;
 import com.mojang.logging.LogUtils;
 import net.Kyap.ItemsRarity.block.ModBlocks;
 import net.Kyap.ItemsRarity.block.entity.ModBlockEntities;
+import net.Kyap.ItemsRarity.block.entity.renderer.EnhancedBlockEntityRenderer;
 import net.Kyap.ItemsRarity.item.ItemsRarityCreativeTabs;
 import net.Kyap.ItemsRarity.item.ModItems;
 import net.Kyap.ItemsRarity.screen.EnhancedAnvilBlockScreen;
 import net.Kyap.ItemsRarity.screen.ModMenuTypes;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -56,6 +58,10 @@ public class ItemsRarity {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
             MenuScreens.register(ModMenuTypes.ENHANCED_ANVIL_MENU.get(), EnhancedAnvilBlockScreen::new);
+            
+            // Enregistrer le renderer pour l'Enhanced Anvil Block Entity
+            BlockEntityRenderers.register(ModBlockEntities.ENHANCED_ANVIL_BE.get(), 
+                                        EnhancedBlockEntityRenderer::new);
         }
     }
 }
