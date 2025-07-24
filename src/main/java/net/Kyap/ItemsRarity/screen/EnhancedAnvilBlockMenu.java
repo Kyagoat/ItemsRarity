@@ -1,7 +1,7 @@
 package net.Kyap.ItemsRarity.screen;
 
 import net.Kyap.ItemsRarity.block.ModBlocks;
-import net.Kyap.ItemsRarity.block.entity.EnhancedAnvilBlockEntity;
+import net.Kyap.ItemsRarity.block.entity.custom.EnhancedAnvilBlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -34,7 +34,7 @@ public class EnhancedAnvilBlockMenu extends AbstractContainerMenu {
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER)
                 .ifPresent(itemHandler -> {
                     this.addSlot(new SlotItemHandler(itemHandler, 0, 27, 47));
-                    this.addSlot(new SlotItemHandler(itemHandler, 1, 79, 16));
+                    this.addSlot(new SlotItemHandler(itemHandler, 1, 80, 15));
                     this.addSlot(new SlotItemHandler(itemHandler, 2, 134, 47));
                 });
         addDataSlots(data);

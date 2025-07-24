@@ -24,8 +24,8 @@ public class ItemStackMixin {
                     case "uncommon" -> Rarity.UNCOMMON;
                     case "rare" -> Rarity.RARE;
                     case "epic" -> Rarity.EPIC;
-                    case "legendary" -> ModRarities.ModRarity.LEGENDARY.getRarity(); // ObscureRarity.LEGENDARY
-                    case "mythic" -> ModRarities.ModRarity.MYTHIC.getRarity();   // Idem
+                    case "legendary" -> ModRarities.ModRarity.LEGENDARY.getRarity();
+                    case "mythic" -> ModRarities.ModRarity.MYTHIC.getRarity();
                     default -> Rarity.COMMON;
                 };
 

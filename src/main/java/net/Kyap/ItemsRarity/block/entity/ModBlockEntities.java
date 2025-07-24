@@ -2,7 +2,7 @@ package net.Kyap.ItemsRarity.block.entity;
 
 import net.Kyap.ItemsRarity.ItemsRarity;
 import net.Kyap.ItemsRarity.block.ModBlocks;
-import net.Kyap.ItemsRarity.block.custom.EnhancedAnvilBlock;
+import net.Kyap.ItemsRarity.block.entity.custom.EnhancedAnvilBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;

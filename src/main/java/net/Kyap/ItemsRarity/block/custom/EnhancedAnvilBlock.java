@@ -1,6 +1,6 @@
 package net.Kyap.ItemsRarity.block.custom;
 
-import net.Kyap.ItemsRarity.block.entity.EnhancedAnvilBlockEntity;
+import net.Kyap.ItemsRarity.block.entity.custom.EnhancedAnvilBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -50,19 +50,13 @@ public class EnhancedAnvilBlock extends BaseEntityBlock {
     }
 
     private static VoxelShape makeShape() {
-        VoxelShape shape = Block.box(2, 0, 2, 14, 4, 14);
-        shape = Shapes.or(shape, Block.box(4, 4, 3, 12, 5, 13));
-        shape = Shapes.or(shape, Block.box(6, 5, 4, 10, 10, 12));
-        shape = Shapes.or(shape, Block.box(3, 10, 0, 13, 16, 16));
-        shape = Shapes.or(shape, Block.box(4, 16, 12, 7, 18, 15));
-        shape = Shapes.or(shape, Block.box(4, 18, 12, 6, 19, 14));
-        shape = Shapes.or(shape, Block.box(7, 4, 13, 10, 6, 15));
-        shape = Shapes.or(shape, Block.box(7, 5, 12, 10, 6, 13));
-        shape = Shapes.or(shape, Block.box(7, 6, 12, 9, 7, 14));
-        shape = Shapes.or(shape, Block.box(10, 5, 5, 12, 7, 7));
-        shape = Shapes.or(shape, Block.box(3, 0, 3, 4, 2, 4));
-        shape = Shapes.or(shape, Block.box(3, 0, 12, 4, 2, 13));
-        
+        VoxelShape shape = Block.box(2, 10, 2, 14, 16, 14);
+        shape = Shapes.or(shape, Block.box(5, 4, 5, 11, 10, 11));
+        shape = Shapes.or(shape, Block.box(2, 0, 2, 14, 4, 14));
+        shape = Shapes.or(shape, Block.box(5, 11, 0, 11, 15, 2));
+        shape = Shapes.or(shape, Block.box(0, 11, 5, 2, 15, 11));
+        shape = Shapes.or(shape, Block.box(14, 11, 5, 16, 15, 11));
+        shape = Shapes.or(shape, Block.box(5, 11, 14, 11, 15, 16));
         return shape;
     }
 
