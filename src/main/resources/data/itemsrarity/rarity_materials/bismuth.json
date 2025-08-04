@@ -1,0 +1,10 @@
+{
+  "id": "bismuth",
+  "name": "Bismuth",
+  "rarity_chances": {
+    "rare": 0.35,
+    "epic": 0.45,
+    "legendary": 0.15,
+    "mythic": 0.05
+  }
+}

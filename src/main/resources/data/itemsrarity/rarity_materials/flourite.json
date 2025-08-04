@@ -1,0 +1,10 @@
+{
+  "id": "flourite",
+  "name": "Flourite",
+  "rarity_chances": {
+    "common": 0.35,
+    "uncommon": 0.45,
+    "rare": 0.15,
+    "epic": 0.05
+  }
+}

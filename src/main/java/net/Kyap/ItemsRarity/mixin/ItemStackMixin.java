@@ -16,10 +16,8 @@ public class ItemStackMixin {
         ItemStack stack = (ItemStack)(Object)this;
 
         if (stack.hasTag()) {
-            assert stack.getTag() != null;
-            if (stack.getTag().contains("custom_rarity")) {
+            if (stack.hasTag() && stack.getTag().contains("custom_rarity")) {
                 String rarityId = stack.getTag().getString("custom_rarity").toLowerCase();
-                System.out.println("Custom rarity found: " + rarityId);
                 Rarity rarity = switch (rarityId) {
                     case "uncommon" -> Rarity.UNCOMMON;
                     case "rare" -> Rarity.RARE;

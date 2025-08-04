@@ -2,6 +2,8 @@ package net.Kyap.ItemsRarity.block.entity.custom;
 
 import net.Kyap.ItemsRarity.block.entity.ModBlockEntities;
 import net.Kyap.ItemsRarity.screen.EnhancedAnvilBlockMenu;
+import net.Kyap.ItemsRarity.util.ModRarities;
+import net.Kyap.ItemsRarity.util.rarity.data.RarityConfigHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -22,7 +24,8 @@ import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import static net.Kyap.ItemsRarity.util.RarityManager.*;
+import static net.Kyap.ItemsRarity.util.UpgradeHelper.*;
+import static net.Kyap.ItemsRarity.util.EffectPoolSystem.rollEffectsOnItem;
 
 public class EnhancedAnvilBlockEntity extends BlockEntity implements MenuProvider {
     protected final ContainerData data;
@@ -169,9 +172,9 @@ public class EnhancedAnvilBlockEntity extends BlockEntity implements MenuProvide
             return false;
         }
 
-        String newTierName = rollNewTier(modMaterialItem);
+        ModRarities.ModRarity newTierName = RarityConfigHelper.rollNewTier(modMaterialItem);;
         if (newTierName == null) {
-            enhancementStatus = 2; // Échec
+            enhancementStatus = 2;
             resourceItem.shrink(1);
             modMaterialItem.shrink(1);
             setChanged();
@@ -180,8 +183,8 @@ public class EnhancedAnvilBlockEntity extends BlockEntity implements MenuProvide
 
         // Appliquer directement le tag NBT sur l’item
         CompoundTag tag = gearItem.getOrCreateTag();
-        tag.putString("custom_rarity", newTierName.toLowerCase()); // ex: "rare", "epic", etc.
-
+        tag.putString("custom_rarity", newTierName.getId().toLowerCase());
+        rollEffectsOnItem(gearItem);
         // Marquer comme réussi
         enhancementStatus = 1;
 

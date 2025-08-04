@@ -3,5 +3,22 @@
   "item.itemsrarity.sulfur": "Sulfur",
   "item.itemsrarity.bismuth": "Bismuth",
   "item.itemsrarity.flourite": "Flourite",
+  "item.itemsrarity.bismuth.desc1": "A precious crystalline metal with",
+  "item.itemsrarity.bismuth.desc2": "exceptional magical properties.",
+  "item.itemsrarity.bismuth.desc3": "Highly sought after by master crafters.",
+  "item.itemsrarity.sulfur.desc1": "A volatile yellowish mineral that",
+  "item.itemsrarity.sulfur.desc2": "burns with an acrid smell.",
+  "item.itemsrarity.sulfur.desc3": "A pretty rare material.",
+  "item.itemsrarity.flourite.desc1": "A common but beautiful crystal",
+  "item.itemsrarity.flourite.desc2": "with dark green colored.",
+  "item.itemsrarity.flourite.desc3": "Easy to work with basic tools.",
+  "tooltip.rarity.chances": "Rarity Chances:",
+  "tooltip.rarity.common": "Common: %s",
+  "tooltip.rarity.uncommon": "Uncommon: %s",
+  "tooltip.rarity.rare": "Rare: %s",
+  "tooltip.rarity.epic": "Epic: %s",
+  "tooltip.rarity.legendary": "Legendary: %s",
+  "tooltip.rarity.mythic": "Mythic: %s",
+
   "block.itemsrarity.enhanced_anvil_block": "Enhanced Anvil"
 }

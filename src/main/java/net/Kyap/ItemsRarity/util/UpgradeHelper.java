@@ -1,15 +1,11 @@
 package net.Kyap.ItemsRarity.util;
 import net.Kyap.ItemsRarity.item.ModItems;
-import net.Kyap.ItemsRarity.item.custom.BismuthItem;
-import net.Kyap.ItemsRarity.item.custom.FlouriteItem;
-import net.Kyap.ItemsRarity.item.custom.SulfurItem;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.Objects;
-import java.util.concurrent.ThreadLocalRandom;
 
-public class RarityManager {
+public class UpgradeHelper {
 
     public static boolean isItemUpgradable(ItemStack stack) {
         if (stack.isEmpty()) {
@@ -87,31 +83,5 @@ public class RarityManager {
             }
         }
         return new ItemStack[] { new ItemStack(Items.FEATHER) };
-    }
-
-    /**
-     * Fait un roll pour déterminer le nouveau tier selon la ressource utilisée
-     * Plus le tier est élevé, plus c'est rare à obtenir
-     */
-
-    public static String rollNewTier(ItemStack stack) {
-        Item item = stack.getItem();
-        double roll = ThreadLocalRandom.current().nextDouble();
-        if (item instanceof BismuthItem) {
-            if (roll < 0.40) return ModRarities.ModRarity.RARE.getId();
-            else if (roll < 0.90) return ModRarities.ModRarity.EPIC.getId();
-            else if (roll < 0.99) return ModRarities.ModRarity.LEGENDARY.getId();
-            else return ModRarities.ModRarity.MYTHIC.getId();
-        } else if (item instanceof SulfurItem) {
-            if (roll < 0.50) return ModRarities.ModRarity.UNCOMMON.getId();
-            else if (roll < 0.80) return ModRarities.ModRarity.RARE.getId();
-            else if (roll < 0.95) return ModRarities.ModRarity.EPIC.getId();
-            else return ModRarities.ModRarity.LEGENDARY.getId();
-        } else if (item instanceof FlouriteItem) {
-            if (roll < 0.70) return ModRarities.ModRarity.UNCOMMON.getId();
-            else if (roll < 0.95) return ModRarities.ModRarity.RARE.getId();
-            else return ModRarities.ModRarity.EPIC.getId();
-        }
-        return null;
     }
 }

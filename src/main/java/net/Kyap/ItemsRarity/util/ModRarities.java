@@ -1,17 +1,20 @@
 package net.Kyap.ItemsRarity.util;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.world.item.Rarity;
-import com.obscuria.obscureapi.common.items.ObscureRarity;
 
 public class ModRarities {
+
+    public static final Rarity LEGENDARY = Rarity.create("legendary", ChatFormatting.GOLD);
+    public static final Rarity MYTHIC = Rarity.create("mythic", ChatFormatting.RED);
 
     public enum ModRarity {
         COMMON("common", Rarity.COMMON),
         UNCOMMON("uncommon", Rarity.UNCOMMON),
         RARE("rare", Rarity.RARE),
         EPIC("epic", Rarity.EPIC),
-        LEGENDARY("legendary", ObscureRarity.LEGENDARY),
-        MYTHIC("mythic", ObscureRarity.MYTHIC);
+        LEGENDARY("legendary", ModRarities.LEGENDARY),
+        MYTHIC("mythic", ModRarities.MYTHIC);
 
         private final String id;
         private final Rarity rarity;

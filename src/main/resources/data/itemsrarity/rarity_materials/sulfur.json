@@ -1,0 +1,10 @@
+{
+  "id": "sulfur",
+  "name": "Sulfur",
+  "rarity_chances": {
+    "uncommon": 0.35,
+    "rare": 0.45,
+    "epic": 0.15,
+    "legendary": 0.05
+  }
+}
