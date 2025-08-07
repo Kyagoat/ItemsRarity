@@ -3,7 +3,8 @@
 A Minecraft 1.20.1 Forge mod that adds item rarity tiers (heavily inspired by the Tierify and Tiered mods).
 
 This mod aims to provide an alternative to Tierify for Forge 1.20.1 modpacks.
-As Tierify is not fully compatible with Connector Sinytra—which I wanted to include in my modpack—I am recreating some of its features with inspired adjustments.
+Since Tierify is not fully compatible with Connector Sinytra—which I wanted to include in my modpack—I decided to recreate some of its features with inspired adjustments.
+I wanted a mod like Tierify for my RPG / SMP / RP modpack for me and my friends, so I decided to make my first mod.
 
 ## Item Rarity Upgrade System
 
@@ -13,6 +14,9 @@ Each upgrade consumes:
 - 1 rarity material (Manganese, Bismuth, or Osmium)
 - 1 base material related to the item being upgraded (e.g., iron ingot for iron items)
 - The item itself
+
+In the near future, a hammer item will be required to perform upgrades. It will have very low durability (configurable).  
+This feature is meant to introduce resource destruction in the modpack, which is one of the main reasons I started coding this mod.
 
 If the item has no known recipe, a default rare material from this mod will be used instead (currently a feather as a placeholder, to be replaced later).
 
@@ -41,7 +45,7 @@ The Upgraded Anvil is required for performing upgrades and is crafted using:
 | Osmium    | Uncommon / Rare / Epic / Legendary      |
 | Bismuth   | Rare / Epic / Legendary / Mythic        |
 
-The default rarity chances are defined as follows.
+The default rarity chances are defined as follows:
 
 Example for Bismuth:
 {id: "bismuth", name: "Bismuth", rarity_chances: {
@@ -52,8 +56,6 @@ Example for Bismuth:
 }}
 
 > Both the rarity tiers and their probability rates are **fully data-driven**, meaning you can add, remove, or tweak them as needed.
-
-**The higher the rarity tier, the lower the chance of obtaining it.**
 
 ---
 
@@ -68,24 +70,56 @@ Items will automatically receive a rarity when:
 ## Gameplay Effects
 
 Currently, effects are only applied to weapons:
-- Decrease critical hit chance
+- Decreased critical hit chance
 - Increased critical hit chance
 - Vampirism percentage based on damage dealt
 
+---
+
 ## Rarity Effects System
 
-Rarity not only grants gameplay effects to gear, but also unlocks a limited number of effect slots:
+Rarity grants gameplay effects to gear, and also allows a certain number of effect slots:
 
 - **Common** and **Uncommon**: 1 slot, with more malus than bonus effects
 - **Rare** and **Epic**: 2 slots, with more bonus than malus effects
 - **Legendary**: 3 slots, only bonuses with access to rarer effects
 - **Mythic**: 4 slots, only bonuses with higher chances of powerful effects
 
+---
+
 ## Custom Critical Hit System
 
 The default Minecraft critical hit mechanic is replaced by a custom system:
 
-- You can no longer perform regular critical hits in the usual way (this may become data-driven to choose weither or not you activate it).
+- You can no longer perform regular critical hits in the usual way (this may become data-driven to allow toggling).
 - To enhance your crit chances, you'll need to acquire specific effects tied to gear rarity or modifiers.
 
 The long-term goal is to implement a wide variety of effects for both weapons and armor, allowing players to build and optimize their own unique playstyles.
+
+---
+
+## Roadmap
+
+- Add more effects to gear, while keeping them balanced and not overpowered compared to Minecraft's default enchantment system.
+- Make more systems data-driven to allow easier customization by others.
+- If possible, redesign the textures for the anvil and ores.
+
+> Current placeholder textures are taken from this repo: https://github.com/malcolmriley/unused-textures  
+> (not the upgraded anvil texture, which is a temporary one I made).  
+> The artist's work is amazing, but I would love to have more personal textures eventually.
+
+---
+
+## Credits
+
+Special thanks to [malcolmriley](https://github.com/malcolmriley) for the placeholder textures used for ores.  
+Textures are from the **unused-textures** repository: https://github.com/malcolmriley/unused-textures  
+Used under the terms of the repository's license.
+(The texture of the enhanced anvil is one of mine which explained why it is shitty.)
+
+---
+
+Any suggestion or feedback is welcome.  
+As I said above, this is my first mod and I'm trying to improve, so feel free to share criticism.
+
+Feel free to use or modify this mod as needed.
