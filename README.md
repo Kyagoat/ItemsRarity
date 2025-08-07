@@ -103,9 +103,10 @@ The long-term goal is to implement a wide variety of effects for both weapons an
 - Add more effects to gear, while keeping them balanced and not overpowered compared to Minecraft's default enchantment system.
 - Make more systems data-driven to allow easier customization by others.
 - If possible, redesign the textures for the anvil and ores.
+- I also plan to add resource blocks for the ores. In my modpack, these resources will also be obtainable as drops from bosses (and from regular mobs for the less rare ones). They will be mineable as well, with drop chances that reflect their rarity.
+- Mayby adding a customizable JSON to add ores drop to popular mobs mod (bosses first). (Might be overkill)
 
-> Current placeholder textures are taken from this repo: https://github.com/malcolmriley/unused-textures  
-> (not the upgraded anvil texture, which is a temporary one I made).  
+> Current ores textures are taken from this repo: https://github.com/malcolmriley/unused-textures  
 > The artist's work is amazing, but I would love to have more personal textures eventually.
 
 ---
