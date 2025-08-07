@@ -3,7 +3,7 @@
 A Minecraft 1.20.1 Forge mod that adds item rarity tiers (heavily inspired by the Tierify and Tiered mods).
 
 This mod aims to provide an alternative to Tierify for Forge 1.20.1 modpacks.
-Since Tierify is not fully compatible with Connector Sinytra—which I wanted to include in my modpack—I decided to recreate some of its features with inspired adjustments.
+Since Tierify is not fully compatible with Connector Sinytra—which I wanted to include in my modpack. I decided to recreate some of its features with inspired adjustments.
 I wanted a mod like Tierify for my RPG / SMP / RP modpack for me and my friends, so I decided to make my first mod.
 
 ## Item Rarity Upgrade System
@@ -124,3 +124,5 @@ Any suggestion or feedback is welcome.
 As I said above, this is my first mod and I'm trying to improve, so feel free to share criticism.
 
 Feel free to use or modify this mod as needed.
+
+This README was written by me and reviewed with the help of an AI, as English is not my first language.
