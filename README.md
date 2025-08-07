@@ -3,7 +3,7 @@
 A Minecraft 1.20.1 Forge mod that adds item rarity tiers (heavily inspired by the Tierify and Tiered mods).
 
 This mod aims to provide an alternative to Tierify for Forge 1.20.1 modpacks.
-As Tierify is not fully compatible with Connector Sinytra—which I wanted to include in my modpack. I am recreating some of its features with personnal adjustments.
+As Tierify is not fully compatible with Connector Sinytra—which I wanted to include in my modpack—I am recreating some of its features with inspired adjustments.
 
 ## Item Rarity Upgrade System
 
@@ -27,7 +27,7 @@ The Upgraded Anvil is required for performing upgrades and is crafted using:
 ### Advanced Tooltip System
 
 - Custom visual effects
-- Compatible with mods like **Obscure Tooltip** and **Legendary Tooltip**
+- Compatible with mods like **Obscure Tooltip** and **Legendary Tooltip** via mixins
 
 ---
 
@@ -36,7 +36,7 @@ The Upgraded Anvil is required for performing upgrades and is crafted using:
 ### Rarity Materials & Their Upgrade Ranges
 
 | Material  | Possible Rarity Outcomes                |
-|-----------|-----------------------------------------|
+|-----------|------------------------------------------|
 | Manganese | Common / Uncommon / Rare / Epic         |
 | Osmium    | Uncommon / Rare / Epic / Legendary      |
 | Bismuth   | Rare / Epic / Legendary / Mythic        |
@@ -68,5 +68,24 @@ Items will automatically receive a rarity when:
 ## Gameplay Effects
 
 Currently, effects are only applied to weapons:
+- Decrease critical hit chance
 - Increased critical hit chance
 - Vampirism percentage based on damage dealt
+
+## Rarity Effects System
+
+Rarity not only grants gameplay effects to gear, but also unlocks a limited number of effect slots:
+
+- **Common** and **Uncommon**: 1 slot, with more malus than bonus effects
+- **Rare** and **Epic**: 2 slots, with more bonus than malus effects
+- **Legendary**: 3 slots, only bonuses with access to rarer effects
+- **Mythic**: 4 slots, only bonuses with higher chances of powerful effects
+
+## Custom Critical Hit System
+
+The default Minecraft critical hit mechanic is replaced by a custom system:
+
+- You can no longer perform regular critical hits in the usual way (this may become data-driven to choose weither or not you activate it).
+- To enhance your crit chances, you'll need to acquire specific effects tied to gear rarity or modifiers.
+
+The long-term goal is to implement a wide variety of effects for both weapons and armor, allowing players to build and optimize their own unique playstyles.
