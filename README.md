@@ -36,7 +36,7 @@ The Upgraded Anvil is required for performing upgrades and is crafted using:
 ### Rarity Materials & Their Upgrade Ranges
 
 | Material  | Possible Rarity Outcomes                |
-|-----------|------------------------------------------|
+|-----------|-----------------------------------------|
 | Manganese | Common / Uncommon / Rare / Epic         |
 | Osmium    | Uncommon / Rare / Epic / Legendary      |
 | Bismuth   | Rare / Epic / Legendary / Mythic        |
