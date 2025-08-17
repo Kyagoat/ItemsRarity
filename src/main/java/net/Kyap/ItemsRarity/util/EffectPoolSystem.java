@@ -24,31 +24,28 @@ public class EffectPoolSystem {
     private static final Random RANDOM = new Random();
 
     /**
-     * Applique des effets aléatoirement sur un item basé sur sa rareté
+     * Apply random effects to an item based on its rarity.
      */
     public static void rollEffectsOnItem(ItemStack stack) {
-        // D'abord, supprimer complètement tous les effets existants
         EffectRegistry.removeAllEffects(stack);
-        
+
+        // Get max number of applicable effects based on the object's rarity
         int maxEffects = EFFECTS_COUNT.getOrDefault(stack.getRarity(), 1);
         
-        // Obtenir tous les effets applicables à cet item et cette rareté
         List<String> applicableEffects = getApplicableEffectsForItem(stack);
         
         if (applicableEffects.isEmpty()) {
-            return; // Aucun effet applicable
+            return;
         }
         
-        // Sélectionner des effets aléatoirement en fonction du poids
         Set<String> selectedEffects = selectRandomEffects(applicableEffects, stack.getRarity(), maxEffects);
-        // Appliquer les effets sélectionnés
         for (String effectId : selectedEffects) {
             EffectRegistry.applyEffectToItem(effectId, stack, stack.getOrCreateTag());
         }
     }
 
     /**
-     * Obtient tous les effets applicables à un item pour une rareté donnée
+     * Gets all applicable effects for the given item stack.
      */
     private static List<String> getApplicableEffectsForItem(ItemStack stack) {
         List<String> applicableEffects = new ArrayList<>();
@@ -56,18 +53,16 @@ public class EffectPoolSystem {
         for (Map.Entry<String, EffectJsonData> entry : EffectDataManager.getAllConfigs().entrySet()) {
             String effectId = entry.getKey();
             
-            // Vérifier si l'effet peut être appliqué à cet item
-            if (EffectConfigHelper.isItemValidForEffect(stack, effectId) && 
+            if (EffectConfigHelper.isItemValidForEffect(stack, effectId) &&
                 EffectConfigHelper.canEffectAppearOnRarity(effectId, stack.getRarity())) {
                 applicableEffects.add(effectId);
             }
         }
-        
         return applicableEffects;
     }
 
     /**
-     * Sélectionne des effets aléatoirement basé sur leur poids
+     * Select random effects based on the rarity and maximum number of effects.
      */
     private static Set<String> selectRandomEffects(List<String> availableEffects, Rarity rarity, int maxEffects) {
         Set<String> selectedEffects = new HashSet<>();
@@ -77,20 +72,19 @@ public class EffectPoolSystem {
             String selectedEffect = selectWeightedRandomEffect(effectsPool, rarity);
             if (selectedEffect != null) {
                 selectedEffects.add(selectedEffect);
-                effectsPool.remove(selectedEffect); // Éviter les doublons
+                effectsPool.remove(selectedEffect); // Remove selected effect to avoid duplicates
             }
         }
-        
         return selectedEffects;
     }
 
     /**
-     * Sélectionne un effet aléatoire basé sur le poids
+     * Select a random effect from the list based on their weights.
      */
     private static String selectWeightedRandomEffect(List<String> effects, Rarity rarity) {
         if (effects.isEmpty()) return null;
         
-        // Calculer le poids total
+        // Calculate total weight of all effects
         int totalWeight = 0;
         for (String effectId : effects) {
             totalWeight += EffectConfigHelper.getEffectWeight(effectId, rarity);
@@ -98,8 +92,8 @@ public class EffectPoolSystem {
         
         if (totalWeight <= 0) return null;
         
-        // Sélection aléatoire pondérée
-        int randomValue = RANDOM.nextInt(totalWeight);
+        // Select a random effect based on weights
+        int randomValue = RANDOM.nextInt(totalWeight); // Random value in range of total weight
         int currentWeight = 0;
         
         for (String effectId : effects) {
@@ -108,7 +102,6 @@ public class EffectPoolSystem {
                 return effectId;
             }
         }
-        
         return effects.get(0); // Fallback
     }
 }

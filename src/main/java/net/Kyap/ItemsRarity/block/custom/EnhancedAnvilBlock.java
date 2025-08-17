@@ -28,6 +28,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.network.NetworkHooks;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
@@ -40,12 +41,12 @@ public class EnhancedAnvilBlock extends BaseEntityBlock {
     }
 
     @Override
-    public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
+    public @NotNull VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         return SHAPE;
     }
 
     @Override
-    public RenderShape getRenderShape(BlockState pState) {
+    public @NotNull RenderShape getRenderShape(BlockState pState) {
         return RenderShape.MODEL;
     }
 
@@ -66,37 +67,25 @@ public class EnhancedAnvilBlock extends BaseEntityBlock {
     }
 
     @Override
-    public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
+    public @NotNull InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (!pLevel.isClientSide()) {
             BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
             if (blockEntity instanceof EnhancedAnvilBlockEntity enhancedAnvil) {
                 
-                // Vérifier si le joueur tient une plume
+                // TODO : Replace feather with a custom item for upgrading
                 ItemStack heldItem = pPlayer.getItemInHand(pHand);
                 boolean hasFeather = heldItem.getItem() == Items.FEATHER;
                 if (hasFeather) {
-                    // Clic droit avec une plume = Améliorer l'item
                     boolean canUpgrade = enhancedAnvil.canUpgrade();
                     if (canUpgrade) {
                         boolean success = enhancedAnvil.performUpgrade();
                         if (success) {
-                            // Créer des particules selon la rareté de l'item amélioré
-                            spawnRarityParticles(pLevel, pPos, enhancedAnvil);
-                            
-                            // Jouer des sons de forge réalistes
-                            pLevel.playSound(null, pPos, SoundEvents.ANVIL_USE, SoundSource.BLOCKS, 1.2f, 1.0f); // Son principal de marteau
-                            pLevel.playSound(null, pPos, SoundEvents.ANVIL_LAND, SoundSource.BLOCKS, 0.8f, 1.3f); // Impact métallique
-                            pLevel.playSound(null, pPos, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.BLOCKS, 0.6f, 1.5f); // Son de succès
-                            
+                            playUpgradeAnimation(pLevel, pPos, enhancedAnvil, true);
                             return InteractionResult.SUCCESS;
-                        } else {
-                            // Son d'échec
-                            pLevel.playSound(null, pPos, SoundEvents.ANVIL_DESTROY, SoundSource.BLOCKS, 0.5f, 0.8f);
-                            return InteractionResult.FAIL;
                         }
-                    } else {
-                        return InteractionResult.FAIL;
+                            playUpgradeAnimation(pLevel, pPos, enhancedAnvil, false);
                     }
+                    return InteractionResult.FAIL;
                 } else {
                     NetworkHooks.openScreen((ServerPlayer) pPlayer, enhancedAnvil, pPos);
                     return InteractionResult.SUCCESS;
@@ -106,12 +95,22 @@ public class EnhancedAnvilBlock extends BaseEntityBlock {
         return InteractionResult.sidedSuccess(pLevel.isClientSide());
     }
 
+    private void playUpgradeAnimation(Level pLevel, BlockPos pPos, EnhancedAnvilBlockEntity enhancedAnvilBlock, boolean success){
+        // TODO : Replace with a custom particles animation
+        if (success){
+            spawnRarityParticles(pLevel, pPos, enhancedAnvilBlock);
+            pLevel.playSound(null, pPos, SoundEvents.ANVIL_USE, SoundSource.BLOCKS, 1.2f, 1.0f); // Hammer sound
+            pLevel.playSound(null, pPos, SoundEvents.ANVIL_LAND, SoundSource.BLOCKS, 0.8f, 1.3f); // Impact sound
+            pLevel.playSound(null, pPos, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.BLOCKS, 0.6f, 1.5f); // Success sound
+        }
+        pLevel.playSound(null, pPos, SoundEvents.ANVIL_DESTROY, SoundSource.BLOCKS, 0.5f, 0.8f); // Fail sound
+    }
+
     @Override
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = level.getBlockEntity(pos);
             if (blockEntity instanceof EnhancedAnvilBlockEntity enhancedAnvil) {
-                // Droper les items quand le block est détruit
                 for (int i = 0; i < enhancedAnvil.getItemHandler().getSlots(); i++) {
                     net.minecraft.world.Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(),
                             enhancedAnvil.getItemHandler().getStackInSlot(i));
@@ -312,5 +311,7 @@ public class EnhancedAnvilBlock extends BaseEntityBlock {
             case RARE, EPIC -> 2;        // 30 particules
         };
     }
+
+
 }
 
