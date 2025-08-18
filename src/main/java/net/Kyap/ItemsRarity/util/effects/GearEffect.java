@@ -1,10 +1,13 @@
 package net.Kyap.ItemsRarity.util.effects;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Rarity;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+
+import static net.Kyap.ItemsRarity.util.effects.data.EffectConfigHelper.getEffectName;
 
 public interface GearEffect {
     String name = null;
@@ -25,5 +28,13 @@ public interface GearEffect {
 
     float getValueByRarity(ItemStack weapon);
 
-    String getTooltip(float effectValue, ItemStack weapon); // affichage
+    default String getTooltip(float effectValue, ItemStack weapon) {
+        float percent = effectValue * 100f;
+        ChatFormatting formatting = weapon.getRarity().color;
+        String colorCode = "§" + formatting.getChar();
+        String effectName = getEffectName(getId());
+
+        String sign = percent >= 0 ? "+" : "";
+        return String.format("%s%s%.1f%% %s", colorCode, sign, percent, effectName);
+    }
 }

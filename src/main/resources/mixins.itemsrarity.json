@@ -10,7 +10,8 @@
   ],
   "mixins": [
     "ItemStackMixin",
-    "PlayerMixin"
+    "PlayerMixin",
+    "ItemStackHurtMixin"
   ],
   "injectors": {
     "defaultRequire": 1

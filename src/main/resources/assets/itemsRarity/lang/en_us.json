@@ -12,6 +12,7 @@
   "item.itemsrarity.flourite.desc1": "A common but beautiful crystal",
   "item.itemsrarity.flourite.desc2": "with dark green colored.",
   "item.itemsrarity.flourite.desc3": "Easy to work with basic tools.",
+
   "tooltip.rarity.chances": "Rarity Chances:",
   "tooltip.rarity.common": "Common: %s",
   "tooltip.rarity.uncommon": "Uncommon: %s",

@@ -27,7 +27,7 @@ public class EffectPoolSystem {
      * Apply random effects to an item based on its rarity.
      */
     public static void rollEffectsOnItem(ItemStack stack) {
-        EffectRegistry.removeAllEffects(stack);
+        EffectRegistry.removeAllEffect(stack);
 
         // Get max number of applicable effects based on the object's rarity
         int maxEffects = EFFECTS_COUNT.getOrDefault(stack.getRarity(), 1);

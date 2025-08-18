@@ -53,7 +53,8 @@ public class EffectRegistry {
         Rarity rarity = stack.getRarity();
         float effectValue = EffectConfigHelper.getRandomEffectValue(effectId, rarity);
         
-        if (effectValue > 0) {
+        // Permettre les valeurs négatives et positives (mais pas 0)
+        if (effectValue != 0) {
             effect.applyEffect(stack, tag, effectValue);
         }
     }
@@ -61,7 +62,7 @@ public class EffectRegistry {
     /**
      * Supprime complètement tous les effets personnalisés et leurs valeurs d'un item
      */
-    private static void removeAllEffect(ItemStack stack){
+    public static void removeAllEffect(ItemStack stack){
         if (!stack.hasTag()) return;
 
         CompoundTag tag = stack.getTag();
@@ -87,13 +88,6 @@ public class EffectRegistry {
         stack.setTag(tag);
     }
 
-    /**
-     * Supprime complètement tous les effets personnalisés et leurs valeurs d'un item (méthode publique)
-     */
-    public static void removeAllEffects(ItemStack stack){
-        removeAllEffect(stack);
-    }
-    
     /**
      * Gère les événements onHit pour tous les effets d'un item
      */
@@ -151,5 +145,6 @@ public class EffectRegistry {
         // Les effets seront enregistrés ici
         registerEffect(new LifeStealEffect());
         registerEffect(new CritChanceEffect());
+        registerEffect(new DurabilityEffect());
     }
 }

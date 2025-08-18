@@ -4,7 +4,7 @@
   "type": "on_hit",
   "tag": "itemsrarity:sword",
   "rarity_config": {
-    "common":    { "weight": 70,    "min": -0.30,  "max": -0.45 },
+    "common":    { "weight": 70,    "min": -0.45,  "max": -0.30 },
     "uncommon":  { "weight": 60,    "min": -0.15,  "max": 0.5 },
     "rare":      { "weight": 50,    "min": 0.05,  "max": 0.10 },
     "epic":      { "weight": 40,   "min": 0.10, "max": 0.15 },

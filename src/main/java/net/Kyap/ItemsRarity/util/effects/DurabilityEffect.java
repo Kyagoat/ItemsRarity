@@ -1,6 +1,5 @@
 package net.Kyap.ItemsRarity.util.effects;
 
-import net.Kyap.ItemsRarity.util.effects.data.EffectConfigHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -11,23 +10,29 @@ import net.minecraft.world.item.Rarity;
 
 import static net.Kyap.ItemsRarity.util.effects.data.EffectConfigHelper.getEffectName;
 
-public class CritChanceEffect implements GearEffect {
+public class DurabilityEffect implements GearEffect {
 
     @Override
     public String getId() {
-        return "crit_chance";
+        return "durability";
     }
 
     @Override
     public GearEffect getInstance() {
-        return this;
+        return null;
+    }
+
+    @Override
+    public boolean isApplicableTo(ItemStack stack) {
+        // Ici tu choisis sur quoi ça peut s’appliquer (armes, armures...)
+        return stack.isDamageableItem();
     }
 
     @Override
     public void applyEffect(ItemStack stack, CompoundTag tag, float effectValue) {
         // Stocker la valeur de l'effet dans le tag NBT
-        tag.putFloat("CritChanceEffect", effectValue);
-        
+        tag.putFloat("DurabilityEffect", effectValue);
+
         // Ajouter l'ID de l'effet à la liste des effets
         ListTag effectsList = tag.getList("CustomEffects", 8);
         effectsList.add(StringTag.valueOf(getId()));
@@ -36,9 +41,9 @@ public class CritChanceEffect implements GearEffect {
 
     @Override
     public void removeEffect(ItemStack weapon, CompoundTag tag) {
-        // Supprimer la valeur spécifique de l'effet Life Steal
-        if (tag.contains("CritChanceEffect")) {
-            tag.remove("CritChanceEffect");
+        // Supprimer la valeur spécifique de l'effet
+        if (tag.contains("DurabilityEffect")) {
+            tag.remove("DurabilityEffect");
         }
     }
 
@@ -48,17 +53,12 @@ public class CritChanceEffect implements GearEffect {
     }
 
     @Override
-    public boolean isApplicableTo(ItemStack stack) {
-        return EffectConfigHelper.isItemValidForEffect(stack, getId());
-    }
-
-    @Override
     public float getValueByRarity(ItemStack weapon) {
         if (!weapon.hasTag()) return 0.0f;
-        
+
         CompoundTag tag = weapon.getTag();
-        if (tag == null || !tag.contains("CritChanceEffect")) return 0.0f;
-        
-        return tag.getFloat("CritChanceEffect");
+        if (tag == null || !tag.contains("DurabilityEffect")) return 0.0f;
+
+        return tag.getFloat("DurabilityEffect");
     }
 }
