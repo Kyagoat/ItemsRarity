@@ -15,7 +15,7 @@ import org.joml.Vector3f;
 public class ParticleAnvilBlock {
 
     /**
-     * Crée des particules d'éclats métalliques autour de l'enclume comme si l'item était frappé
+     * Creates particles around the anvil as if the item is being struck
      */
     public static void spawnRarityParticles(Level level, BlockPos pos, EnhancedAnvilBlockEntity anvil) {
         if (!(level instanceof ServerLevel serverLevel)) {
@@ -82,7 +82,7 @@ public class ParticleAnvilBlock {
     }
 
     /**
-     * Détermine la couleur des particules selon la rareté de l'item
+     * Determines the color of the particles based on the rarity of the item
      */
     private static Vec3 getParticleColorForRarity(ItemStack stack) {
         if (stack.hasTag() && stack.getTag().contains("custom_rarity")) {
@@ -99,24 +99,23 @@ public class ParticleAnvilBlock {
         }
         Rarity rarity = stack.getRarity();
         return switch (rarity) {
-            case COMMON -> new Vec3(0.6, 0.6, 0.6);      // Gris
-            case UNCOMMON -> new Vec3(0.2, 0.8, 0.2);    // Vert
-            case RARE -> new Vec3(0.2, 0.2, 1.0);        // Bleu
-            case EPIC -> new Vec3(1.0, 0.0, 1.0);        // Violet/Magenta
+            case COMMON -> new Vec3(0.6, 0.6, 0.6);      // Gray
+            case UNCOMMON -> new Vec3(0.2, 0.8, 0.2);    // Green
+            case RARE -> new Vec3(0.2, 0.2, 1.0);        // Blue
+            case EPIC -> new Vec3(1.0, 0.0, 1.0);        // Purple/Magenta
         };
     }
 
     /**
-     * Détermine le multiplicateur de particules selon la rareté de l'item
-     * Plus la rareté est élevée, plus il y a de particules
+     * Determines the particle multiplier based on the rarity of the item
+     * The higher the rarity, the more particles are generated
      */
-    private static int getParticleMultiplierForRarity(net.minecraft.world.item.ItemStack stack) {
-        // Verified if the item has a custom rarity tag
+    private static int getParticleMultiplierForRarity(ItemStack stack) {
+        // Verify if the item has a custom rarity tag
         if (stack.hasTag() && stack.getTag().contains("custom_rarity")) {
             String customRarityName = stack.getTag().getString("custom_rarity");
             return switch (customRarityName) {
-                case "common" -> 1;
-                case "uncommon" -> 1;
+                case "common", "uncommon" -> 1;
                 case "rare" -> 2;
                 case "epic" -> 5;
                 case "legendary" -> 7;
@@ -125,7 +124,7 @@ public class ParticleAnvilBlock {
             };
         }
 
-        // Else use the default rarity system
+        // Otherwise, use the default rarity system
         Rarity rarity = stack.getRarity();
         return switch (rarity) {
             case COMMON -> 1;
