@@ -7,6 +7,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Rarity;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
+import java.util.Locale;
+
 import static net.Kyap.ItemsRarity.util.effects.data.EffectConfigHelper.getEffectName;
 
 public interface GearEffect {
@@ -33,8 +35,8 @@ public interface GearEffect {
         ChatFormatting formatting = weapon.getRarity().color;
         String colorCode = "§" + formatting.getChar();
         String effectName = getEffectName(getId());
-
         String sign = percent >= 0 ? "+" : "";
-        return String.format("%s%s%.1f%% %s", colorCode, sign, percent, effectName);
+
+        return String.format(Locale.ROOT, "%s%s%.1f%% %s", colorCode, sign, percent, effectName);
     }
 }
