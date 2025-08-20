@@ -14,6 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -32,7 +33,7 @@ public class EnhancedAnvilBlockEntity extends BlockEntity implements MenuProvide
     private static final int RESOURCE_SLOT = 0;
     private static final int GEAR_SLOT = 1;
     private static final int MOD_MATERIAL_SLOT = 2;
-    private int enhancementStatus = 0; // 0 = en attente, 1 = réussie, 2 = échouée
+    private int enhancementStatus = 0;
     private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
 
     private final ItemStackHandler item_handler = new ItemStackHandler(3) {
@@ -43,20 +44,20 @@ public class EnhancedAnvilBlockEntity extends BlockEntity implements MenuProvide
         }
         
         @Override
-        public ItemStack extractItem(int slot, int amount, boolean simulate) {
+        public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
             return super.extractItem(slot, amount, simulate);
         }
 
         @Override
         public boolean isItemValid(int slot, ItemStack stack) {
             return switch (slot) {
-                case GEAR_SLOT -> isItemUpgradable(stack); // Seuls les items upgradables dans le slot gear
+                case GEAR_SLOT -> isItemUpgradable(stack); // MIDDLE SLOT : Only upgradable items in the gear slot
                 case RESOURCE_SLOT -> {
-                    // Slot de gauche : ressource de réparation ou plume si pas de ressource connue
+                    // LEFT SLOT : items that can be used for upgrading
                     ItemStack gearItem = getStackInSlot(GEAR_SLOT);
                     yield isValidRepairResource(gearItem, stack);
                 }
-                case MOD_MATERIAL_SLOT -> isCustomModResource(stack); // Slot de droite : uniquement nos ressources personnalisées
+                case MOD_MATERIAL_SLOT -> isCustomModResource(stack); // RIGHT SLOT : custom mod resources
                 default -> super.isItemValid(slot, stack);
             };
         }
@@ -68,9 +69,9 @@ public class EnhancedAnvilBlockEntity extends BlockEntity implements MenuProvide
             @Override
             public int get(int index) {
                 return switch (index) {
-                    case 0 -> enhancementStatus; // Statut de l'amélioration (0 = en attente, 1 = terminé, 2 = échouée)
-                    case 1 -> isItemUpgradable(item_handler.getStackInSlot(1)) ? 1 : 0; // A un équipement valide dans GEAR_SLOT
-                    case 2 -> hasValidResources(item_handler.getStackInSlot(0), item_handler.getStackInSlot(2)) ? 1 : 0; // A les ressources nécessaires (RESOURCE_SLOT + MOD_MATERIAL_SLOT)
+                    case 0 -> enhancementStatus;
+                    case 1 -> isItemUpgradable(item_handler.getStackInSlot(1)) ? 1 : 0;
+                    case 2 -> hasValidResources(item_handler.getStackInSlot(0), item_handler.getStackInSlot(2)) ? 1 : 0;
                     default -> 0;
                 };
             }
@@ -78,7 +79,7 @@ public class EnhancedAnvilBlockEntity extends BlockEntity implements MenuProvide
             @Override
             public void set(int index, int value) {
                 if (index == 0) {
-                    enhancementStatus = value; // Met à jour le statut de l'amélioration
+                    enhancementStatus = value; // Update enhancement status
                 }
             }
 
@@ -109,7 +110,6 @@ public class EnhancedAnvilBlockEntity extends BlockEntity implements MenuProvide
         lazyItemHandler.invalidate();
     }
 
-    // Récupère l'ItemHandler pour l'accès externe (interfaces, etc.)
     public ItemStackHandler getItemHandler() {
         return item_handler;
     }
@@ -126,35 +126,29 @@ public class EnhancedAnvilBlockEntity extends BlockEntity implements MenuProvide
         return new EnhancedAnvilBlockMenu(pContainerId, pInventory, this, this.data);
     }
 
-    // Vérifie si l'amélioration est possible
     public boolean canUpgrade() {
         ItemStack gearItem = item_handler.getStackInSlot(GEAR_SLOT);
         ItemStack resourceItem = item_handler.getStackInSlot(RESOURCE_SLOT);
         ItemStack modMaterialItem = item_handler.getStackInSlot(MOD_MATERIAL_SLOT);
 
-        // Vérifier que tous les slots ont des items
         if (gearItem.isEmpty() || resourceItem.isEmpty() || modMaterialItem.isEmpty()) {
             return false;
         }
 
-        // Vérifier que l'item gear peut être amélioré
         if (!isItemUpgradable(gearItem)) {
             return false;
         }
 
-        // Vérifier que la ressource de gauche est correcte pour l'item du milieu
         if (!isValidRepairResource(gearItem, resourceItem)) {
             return false;
         }
 
-        // Vérifier que la ressource de droite est une de nos ressources personnalisées
         return isCustomModResource(modMaterialItem);
     }
 
-    // Effectue l'amélioration de l'item
     public boolean performUpgrade() {
         if (!canUpgrade()) {
-            enhancementStatus = 2; // Échec
+            enhancementStatus = 2; // Failure
             setChanged();
             return false;
         }
@@ -163,17 +157,9 @@ public class EnhancedAnvilBlockEntity extends BlockEntity implements MenuProvide
         ItemStack resourceItem = item_handler.getStackInSlot(RESOURCE_SLOT);
         ItemStack modMaterialItem = item_handler.getStackInSlot(MOD_MATERIAL_SLOT);
 
-        // Vérifier si déjà mythic
-        if (gearItem.hasTag() && "mythic".equals(gearItem.getOrCreateTag().getString("custom_rarity"))) {
-            enhancementStatus = 2; // Échec
-            resourceItem.shrink(1);
-            modMaterialItem.shrink(1);
-            setChanged();
-            return false;
-        }
-
-        ModRarities.ModRarity newTierName = RarityConfigHelper.rollNewTier(modMaterialItem);;
-        if (newTierName == null) {
+        // Roll de la nouvelle rareté
+        ModRarities.ModRarity rolledRarity = RarityConfigHelper.rollNewTier(modMaterialItem);
+        if (rolledRarity == null) {
             enhancementStatus = 2;
             resourceItem.shrink(1);
             modMaterialItem.shrink(1);
@@ -181,25 +167,29 @@ public class EnhancedAnvilBlockEntity extends BlockEntity implements MenuProvide
             return false;
         }
 
-        // Appliquer directement le tag NBT sur l’item
+        Rarity currentRarity = gearItem.getRarity();
+
+        // Comparaison : garder la meilleure
+        Rarity finalRarity = rolledRarity.getRarity();
+        if (currentRarity != null && currentRarity.ordinal() > rolledRarity.ordinal()) {
+            finalRarity = currentRarity;
+        }
+
         CompoundTag tag = gearItem.getOrCreateTag();
-        tag.putString("custom_rarity", newTierName.getId().toLowerCase());
+        tag.putString("custom_rarity", finalRarity.toString().toLowerCase());
         rollEffectsOnItem(gearItem);
-        // Marquer comme réussi
         enhancementStatus = 1;
 
-        // Consommer les ressources
         resourceItem.shrink(1);
         modMaterialItem.shrink(1);
-
         setChanged();
 
         if (level != null && !level.isClientSide()) {
             level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
         }
-
         return true;
     }
+
 
     @Override
     protected void saveAdditional(CompoundTag pTag) {
