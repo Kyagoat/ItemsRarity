@@ -1,6 +1,5 @@
 package net.Kyap.ItemsRarity.mixin;
 
-import net.Kyap.ItemsRarity.ItemsRarity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
