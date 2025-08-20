@@ -1,7 +1,6 @@
 package net.Kyap.ItemsRarity.util.effects;
 
 import net.Kyap.ItemsRarity.util.effects.data.EffectConfigHelper;
-import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -9,7 +8,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 
-import static net.Kyap.ItemsRarity.util.effects.data.EffectConfigHelper.getEffectName;
 
 public class CritChanceEffect implements GearEffect {
 
