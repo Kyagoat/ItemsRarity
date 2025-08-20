@@ -80,13 +80,4 @@ public class LifeStealEffect implements GearEffect {
         
         return tag.getFloat("LifeStealValue");
     }
-
-    @Override
-    public String getTooltip(float effectValue, ItemStack weapon) {
-        float percent = effectValue * 100f;
-        ChatFormatting formatting = weapon.getRarity().color;
-        String colorCode = "§" + formatting.getChar();
-        String effectName = getEffectName(getId());
-        return String.format("%s+%.1f%% %s", colorCode, percent, effectName);
-    }
 }
