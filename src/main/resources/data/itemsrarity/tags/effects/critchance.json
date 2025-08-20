@@ -4,11 +4,11 @@
   "type": "on_hit",
   "tag": "itemsrarity:sword",
   "rarity_config": {
-    "common":    { "weight": 70,    "min": -0.45,  "max": -0.30 },
-    "uncommon":  { "weight": 60,    "min": -0.15,  "max": 0.5 },
-    "rare":      { "weight": 50,    "min": 0.05,  "max": 0.10 },
-    "epic":      { "weight": 40,   "min": 0.10, "max": 0.15 },
-    "legendary": { "weight": 30,   "min": 0.15, "max": 0.30 },
-    "mythic":    { "weight": 20,   "min": 0.30, "max": 0.45 }
+    "common":    { "weight": 70,    "min": -0.40,  "max": -0.20 },
+    "uncommon":  { "weight": 60,    "min": -0.30,  "max": 0 },
+    "rare":      { "weight": 50,    "min": -0.05,  "max": 0.25 },
+    "epic":      { "weight": 40,   "min": 0.20, "max": 0.45 },
+    "legendary": { "weight": 30,   "min": 0.40, "max": 0.75 },
+    "mythic":    { "weight": 20,   "min": 0.70, "max": 0.100 }
   }
 }

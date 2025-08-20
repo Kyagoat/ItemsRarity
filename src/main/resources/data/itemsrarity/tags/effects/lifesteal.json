@@ -7,8 +7,8 @@
     "common":    { "weight": 0,    "min": 0.0,  "max": 0.0 },
     "uncommon":  { "weight": 0,    "min": 0.0,  "max": 0.0 },
     "rare":      { "weight": 0,    "min": 0.0,  "max": 0.0 },
-    "epic":      { "weight": 20,   "min": 0.08, "max": 0.10 },
-    "legendary": { "weight": 30,   "min": 0.10, "max": 0.12 },
-    "mythic":    { "weight": 40,   "min": 0.12, "max": 0.15 }
+    "epic":      { "weight": 5,   "min": 0.08, "max": 0.10 },
+    "legendary": { "weight": 10,   "min": 0.10, "max": 0.12 },
+    "mythic":    { "weight": 15,   "min": 0.12, "max": 0.15 }
   }
 }
