@@ -13,9 +13,9 @@ import java.util.*;
 public class EffectPoolSystem {
 
     private static final Map<Rarity, Integer> EFFECTS_COUNT = Map.of(
-            Rarity.COMMON, 1,
-            Rarity.UNCOMMON, 1,
-            Rarity.RARE, 2,
+            Rarity.COMMON, 2,
+            Rarity.UNCOMMON, 2,
+            Rarity.RARE, 3,
             Rarity.EPIC, 3,
             ModRarities.LEGENDARY, 4,
             ModRarities.MYTHIC, 4
