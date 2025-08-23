@@ -26,19 +26,18 @@ public class PlayerMixin {
     }
 
     private boolean calculateCustomCrit(Player player) {
-        float baseCritChance = 0.15f; // 15% de base
-        float totalCritChance = baseCritChance;
-
+        float baseCritChance = 0.0f;
+        float totalCritChance;
         // Ajouter le bonus de l'arme
         ItemStack weapon = player.getMainHandItem();
         if (weapon.hasTag()) {
             CompoundTag tag = weapon.getTag();
             if (tag != null && tag.contains("CritChanceEffect")) {
                 float bonusCritChance = tag.getFloat("CritChanceEffect");
-                totalCritChance += bonusCritChance;
+                baseCritChance += bonusCritChance;
             }
         }
-        totalCritChance = Math.max(0.0f, Math.min(totalCritChance, 1.0f));
+        totalCritChance = Math.max(0.0f, Math.min(baseCritChance, 1.0f));
 
         return player.level().random.nextFloat() < totalCritChance;
     }
