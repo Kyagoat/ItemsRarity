@@ -9,30 +9,27 @@ public class ModRarities {
     public static final Rarity MYTHIC = Rarity.create("mythic", ChatFormatting.RED);
 
     public enum ModRarity {
-        COMMON("common", Rarity.COMMON),
-        UNCOMMON("uncommon", Rarity.UNCOMMON),
-        RARE("rare", Rarity.RARE),
-        EPIC("epic", Rarity.EPIC),
-        LEGENDARY("legendary", ModRarities.LEGENDARY),
-        MYTHIC("mythic", ModRarities.MYTHIC);
+        COMMON("common", Rarity.COMMON, 0),
+        UNCOMMON("uncommon", Rarity.UNCOMMON, 1),
+        RARE("rare", Rarity.RARE, 2),
+        EPIC("epic", Rarity.EPIC, 3),
+        LEGENDARY("legendary", ModRarities.LEGENDARY, 4),
+        MYTHIC("mythic", ModRarities.MYTHIC, 5);
 
         private final String id;
         private final Rarity rarity;
+        private final int level;
 
-        ModRarity(String id, Rarity rarity) {
+        ModRarity(String id, Rarity rarity, int level) {
             this.id = id;
             this.rarity = rarity;
+            this.level = level;
         }
 
-        public String getId() {
-            return id;
-        }
+        public String getId() { return id; }
+        public Rarity getRarity() { return rarity; }
+        public int getLevel() { return level; }
 
-        public Rarity getRarity() {
-            return rarity;
-        }
-
-        // Pour retrouver un ModRarity depuis un tag (ex: "epic")
         public static ModRarity fromId(String id) {
             for (ModRarity r : values()) {
                 if (r.id.equalsIgnoreCase(id)) return r;

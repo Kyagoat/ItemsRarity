@@ -3,7 +3,6 @@ package net.Kyap.ItemsRarity.events;
 import net.Kyap.ItemsRarity.ItemsRarity;
 import net.Kyap.ItemsRarity.util.effects.EffectRegistry;
 import net.Kyap.ItemsRarity.util.effects.GearEffect;
-import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;

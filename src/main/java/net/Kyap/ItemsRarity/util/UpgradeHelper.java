@@ -84,4 +84,33 @@ public class UpgradeHelper {
         }
         return new ItemStack[] { new ItemStack(Items.FEATHER) };
     }
+
+    /**
+     * Vérifie si un item a déjà une rareté custom
+     */
+    public static boolean hasRarity(ItemStack stack) {
+        return stack.hasTag() && stack.getTag().contains("custom_rarity");
+    }
+
+    public static ModRarities.ModRarity getRarityFromItem(ItemStack stack) {
+        if (stack == null || !stack.hasTag()) return null;
+        String rarityId = stack.getOrCreateTag().getString("modRarity");
+        return ModRarities.ModRarity.fromId(rarityId);
+    }
+
+    /**
+     * Applique une rareté spécifique à un item
+     */
+    private static void applyRarityToItem(ItemStack stack, ModRarities.ModRarity rarity) {
+        stack.getOrCreateTag().putString("custom_rarity", rarity.name().toLowerCase());
+    }
+
+    public static void upgradeItem(ItemStack stack, ModRarities.ModRarity newRarity) {
+        ModRarities.ModRarity currentRarity = getRarityFromItem(stack);
+        if (currentRarity == null || newRarity.getLevel() > currentRarity.getLevel()) {
+            applyRarityToItem(stack, newRarity);
+        }
+        EffectPoolSystem.rollEffectsOnItem(stack);
+    }
+
 }

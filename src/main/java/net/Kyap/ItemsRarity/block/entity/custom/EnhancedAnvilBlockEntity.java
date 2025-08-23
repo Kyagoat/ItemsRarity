@@ -3,7 +3,7 @@ package net.Kyap.ItemsRarity.block.entity.custom;
 import net.Kyap.ItemsRarity.block.entity.ModBlockEntities;
 import net.Kyap.ItemsRarity.screen.EnhancedAnvilBlockMenu;
 import net.Kyap.ItemsRarity.util.ModRarities;
-import net.Kyap.ItemsRarity.util.rarity.data.RarityConfigHelper;
+import net.Kyap.ItemsRarity.util.rarity.data.RarityRatesDataManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -14,7 +14,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -24,9 +23,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import static net.Kyap.ItemsRarity.util.UpgradeHelper.*;
-import static net.Kyap.ItemsRarity.util.EffectPoolSystem.rollEffectsOnItem;
 
 public class EnhancedAnvilBlockEntity extends BlockEntity implements MenuProvider {
     protected final ContainerData data;
@@ -157,27 +154,8 @@ public class EnhancedAnvilBlockEntity extends BlockEntity implements MenuProvide
         ItemStack resourceItem = item_handler.getStackInSlot(RESOURCE_SLOT);
         ItemStack modMaterialItem = item_handler.getStackInSlot(MOD_MATERIAL_SLOT);
 
-        // Roll de la nouvelle rareté
-        ModRarities.ModRarity rolledRarity = RarityConfigHelper.rollNewTier(modMaterialItem);
-        if (rolledRarity == null) {
-            enhancementStatus = 2;
-            resourceItem.shrink(1);
-            modMaterialItem.shrink(1);
-            setChanged();
-            return false;
-        }
-
-        Rarity currentRarity = gearItem.getRarity();
-
-        // Comparaison : garder la meilleure
-        Rarity finalRarity = rolledRarity.getRarity();
-        if (currentRarity != null && currentRarity.ordinal() > rolledRarity.ordinal()) {
-            finalRarity = currentRarity;
-        }
-
-        CompoundTag tag = gearItem.getOrCreateTag();
-        tag.putString("custom_rarity", finalRarity.toString().toLowerCase());
-        rollEffectsOnItem(gearItem);
+        ModRarities.ModRarity rolled = RarityRatesDataManager.rollUpgradeRarity(String.valueOf(modMaterialItem));
+        upgradeItem(gearItem, rolled);
         enhancementStatus = 1;
 
         resourceItem.shrink(1);
