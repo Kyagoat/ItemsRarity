@@ -9,6 +9,6 @@
     "rare":      { "weight": 50,    "min": -0.05,  "max": 0.25 },
     "epic":      { "weight": 40,   "min": 0.20, "max": 0.45 },
     "legendary": { "weight": 30,   "min": 0.40, "max": 0.75 },
-    "mythic":    { "weight": 20,   "min": 0.70, "max": 0.100 }
+    "mythic":    { "weight": 20,   "min": 0.70, "max": 1.00 }
   }
 }

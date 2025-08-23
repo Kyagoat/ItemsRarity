@@ -27,14 +27,16 @@
   },
   "upgrade_materials": {
     "flourite": {
-      "common": 0.40,
-      "uncommon": 0.35,
-      "rare": 0.25
+      "common": 0.30,
+      "uncommon": 0.40,
+      "rare": 0.25,
+      "epic": 0.05
     },
     "sulfur": {
-      "rare": 0.50,
-      "epic": 0.35,
-      "legendary": 0.15
+      "uncommon": 0.30,
+      "rare": 0.40,
+      "epic": 0.25,
+      "legendary": 0.05
     },
     "bismuth": {
       "rare": 0.30,
