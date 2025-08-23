@@ -1,5 +1,6 @@
 package net.Kyap.ItemsRarity.util;
 import net.Kyap.ItemsRarity.item.ModItems;
+import net.Kyap.ItemsRarity.util.rarity.data.RarityRatesDataManager;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -94,8 +95,11 @@ public class UpgradeHelper {
 
     public static ModRarities.ModRarity getRarityFromItem(ItemStack stack) {
         if (stack == null || !stack.hasTag()) return null;
-        String rarityId = stack.getOrCreateTag().getString("modRarity");
-        return ModRarities.ModRarity.fromId(rarityId);
+        String rarityId = stack.getOrCreateTag().getString("custom_rarity");
+        if (rarityId.isEmpty()) return null;
+        
+        // Utiliser la méthode centralisée pour éviter la duplication
+        return RarityRatesDataManager.getModRarityFromName(rarityId);
     }
 
     /**
