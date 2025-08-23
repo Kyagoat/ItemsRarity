@@ -159,8 +159,13 @@ public class EnhancedAnvilBlockEntity extends BlockEntity implements MenuProvide
         
         ModRarities.ModRarity rolled = RarityRatesDataManager.rollUpgradeRarity(materialId);
 
-        UpgradeHelper.upgradeItem(gearItem, rolled);
-        enhancementStatus = 1;
+        boolean upgradeSuccessful = UpgradeHelper.upgradeItem(gearItem, rolled);
+        
+        if (upgradeSuccessful) {
+            enhancementStatus = 1; // Animation de succès
+        } else {
+            enhancementStatus = 2; // Animation d'erreur
+        }
 
         resourceItem.shrink(1);
         modMaterialItem.shrink(1);
@@ -169,7 +174,7 @@ public class EnhancedAnvilBlockEntity extends BlockEntity implements MenuProvide
         if (level != null && !level.isClientSide()) {
             level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
         }
-        return true;
+        return upgradeSuccessful;
     }
 
 

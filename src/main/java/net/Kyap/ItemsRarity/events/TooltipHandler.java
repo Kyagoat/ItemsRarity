@@ -34,7 +34,7 @@ public class TooltipHandler {
                 float effectValue = effect.getValueByRarity(stack);
                 // Afficher le tooltip pour toutes les valeurs non-nulles (positives et négatives)
                 if (effectValue != 0) {
-                    String tooltipText = effect.getTooltip(effectValue, stack);
+                    String tooltipText = effect.getTooltip(effectValue);
                     event.getToolTip().add(Component.literal("§r" + tooltipText));
                 }
             }

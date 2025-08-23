@@ -28,13 +28,16 @@ public interface GearEffect {
 
     float getValueByRarity(ItemStack weapon);
 
-    default String getTooltip(float effectValue, ItemStack weapon) {
+    default String getTooltip(float effectValue) {
         float percent = effectValue * 100f;
-        ChatFormatting formatting = weapon.getRarity().color;
+        ChatFormatting formatting = percent >= 0 ? ChatFormatting.BLUE : ChatFormatting.RED;
         String colorCode = "§" + formatting.getChar();
         String effectName = getEffectName(getId());
         String sign = percent >= 0 ? "+" : "";
 
-        return String.format(Locale.ROOT, "%s%s%.1f%% %s", colorCode, sign, percent, effectName);
+        if (sign.equals("+")) {
+            return String.format(Locale.ROOT, "%s%s%.1f%% %s", colorCode, sign, percent, effectName);
+        }
+        return String.format(Locale.ROOT, "%s%.1f%% %s", colorCode, percent, effectName);
     }
 }

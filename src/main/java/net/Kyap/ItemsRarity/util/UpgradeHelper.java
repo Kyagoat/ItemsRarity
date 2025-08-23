@@ -109,12 +109,15 @@ public class UpgradeHelper {
         stack.getOrCreateTag().putString("custom_rarity", rarity.name().toLowerCase());
     }
 
-    public static void upgradeItem(ItemStack stack, ModRarities.ModRarity newRarity) {
+    public static boolean upgradeItem(ItemStack stack, ModRarities.ModRarity newRarity) {
         ModRarities.ModRarity currentRarity = getRarityFromItem(stack);
-        if (currentRarity == null || newRarity.getLevel() > currentRarity.getLevel()) {
+        // Seulement appliquer l'upgrade et reroll les effets si la nouvelle rareté est supérieure ou égale
+        if (currentRarity == null || newRarity.getLevel() >= currentRarity.getLevel()) {
             applyRarityToItem(stack, newRarity);
+            EffectPoolSystem.rollEffectsOnItem(stack);
+            return true; // Upgrade réussi
         }
-        EffectPoolSystem.rollEffectsOnItem(stack);
+        return false; // Upgrade échoué - nouvelle rareté inférieure
     }
 
 }
