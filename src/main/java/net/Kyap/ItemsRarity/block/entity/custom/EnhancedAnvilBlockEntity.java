@@ -3,6 +3,7 @@ package net.Kyap.ItemsRarity.block.entity.custom;
 import net.Kyap.ItemsRarity.block.entity.ModBlockEntities;
 import net.Kyap.ItemsRarity.screen.EnhancedAnvilBlockMenu;
 import net.Kyap.ItemsRarity.util.ModRarities;
+import net.Kyap.ItemsRarity.util.UpgradeHelper;
 import net.Kyap.ItemsRarity.util.rarity.data.RarityRatesDataManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -154,8 +155,11 @@ public class EnhancedAnvilBlockEntity extends BlockEntity implements MenuProvide
         ItemStack resourceItem = item_handler.getStackInSlot(RESOURCE_SLOT);
         ItemStack modMaterialItem = item_handler.getStackInSlot(MOD_MATERIAL_SLOT);
 
-        ModRarities.ModRarity rolled = RarityRatesDataManager.rollUpgradeRarity(String.valueOf(modMaterialItem));
-        upgradeItem(gearItem, rolled);
+        String materialId = RarityRatesDataManager.getMaterialId(modMaterialItem);
+        
+        ModRarities.ModRarity rolled = RarityRatesDataManager.rollUpgradeRarity(materialId);
+
+        UpgradeHelper.upgradeItem(gearItem, rolled);
         enhancementStatus = 1;
 
         resourceItem.shrink(1);
