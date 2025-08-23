@@ -17,11 +17,6 @@ public class CritChanceEffect implements GearEffect {
     }
 
     @Override
-    public GearEffect getInstance() {
-        return this;
-    }
-
-    @Override
     public void applyEffect(ItemStack stack, CompoundTag tag, float effectValue) {
         // Stocker la valeur de l'effet dans le tag NBT
         tag.putFloat("CritChanceEffect", effectValue);

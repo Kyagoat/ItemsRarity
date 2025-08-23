@@ -16,8 +16,6 @@ public interface GearEffect {
 
     String getId(); // Exemple : "life_steal"
 
-    GearEffect getInstance();
-
     boolean isApplicableTo(ItemStack stack); // ex : seulement pour les épées
 
     void applyEffect(ItemStack weapon, CompoundTag tag, float effectValue); // modifier les nbt avec la valeur calculée

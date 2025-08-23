@@ -1,6 +1,5 @@
 package net.Kyap.ItemsRarity.util;
 
-import net.Kyap.ItemsRarity.util.ModRarities;
 import net.Kyap.ItemsRarity.util.effects.EffectRegistry;
 import net.Kyap.ItemsRarity.util.effects.data.EffectConfigHelper;
 import net.Kyap.ItemsRarity.util.effects.data.EffectDataManager;

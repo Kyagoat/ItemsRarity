@@ -1,29 +1,19 @@
 package net.Kyap.ItemsRarity.util.effects;
 
 import net.Kyap.ItemsRarity.util.effects.data.EffectConfigHelper;
-import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-
-import static net.Kyap.ItemsRarity.util.effects.data.EffectConfigHelper.getEffectName;
 
 public class LifeStealEffect implements GearEffect {
 
     @Override
     public String getId() {
         return "life_steal";
-    }
-
-    @Override
-    public GearEffect getInstance() {
-        return this;
     }
 
     @Override

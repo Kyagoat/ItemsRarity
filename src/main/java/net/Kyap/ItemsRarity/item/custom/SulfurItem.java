@@ -1,8 +1,6 @@
 package net.Kyap.ItemsRarity.item.custom;
 
 import net.Kyap.ItemsRarity.util.ModRarities;
-import net.Kyap.ItemsRarity.util.rarity.data.RarityConfigHelper;
-import net.Kyap.ItemsRarity.util.rarity.data.RarityJsonData;
 import net.Kyap.ItemsRarity.util.rarity.data.RarityTooltipHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
