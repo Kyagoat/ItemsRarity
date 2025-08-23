@@ -1,0 +1,46 @@
+{
+  "id": "unified_rarity_rates",
+  "description": "Configuration unifiée des taux de rareté pour crafting, drops et améliorations",
+  "crafting_rates": {
+    "common": 0.50,
+    "uncommon": 0.25,
+    "rare": 0.15,
+    "epic": 0.08,
+    "legendary": 0.015,
+    "mythic": 0.005
+  },
+  "mob_drop_rates": {
+    "common": 0.50,
+    "uncommon": 0.25,
+    "rare": 0.10,
+    "epic": 0.10,
+    "legendary": 0.04,
+    "mythic": 0.01
+  },
+  "loot_chest_rates": {
+    "common": 0.40,
+    "uncommon": 0.30,
+    "rare": 0.15,
+    "epic": 0.10,
+    "legendary": 0.04,
+    "mythic": 0.01
+  },
+  "upgrade_materials": {
+    "flourite": {
+      "common": 0.40,
+      "uncommon": 0.35,
+      "rare": 0.25
+    },
+    "sulfur": {
+      "rare": 0.50,
+      "epic": 0.35,
+      "legendary": 0.15
+    },
+    "bismuth": {
+      "rare": 0.30,
+      "epic": 0.40,
+      "legendary": 0.25,
+      "mythic": 0.05
+    }
+  }
+}
