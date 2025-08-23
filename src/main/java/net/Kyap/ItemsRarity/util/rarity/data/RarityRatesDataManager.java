@@ -218,7 +218,7 @@ public class RarityRatesDataManager extends SimpleJsonResourceReloadListener {
     /**
      * Convertit un nom de rareté en ModRarity
      */
-    private static ModRarities.ModRarity getModRarityFromName(String name) {
+    public static ModRarities.ModRarity getModRarityFromName(String name) {
         return switch (name.toLowerCase()) {
             case "common" -> ModRarities.ModRarity.COMMON;
             case "uncommon" -> ModRarities.ModRarity.UNCOMMON;

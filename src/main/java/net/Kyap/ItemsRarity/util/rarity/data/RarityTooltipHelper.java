@@ -19,13 +19,17 @@ public class RarityTooltipHelper {
         pTooltipComponents.add(Component.literal(""));
         pTooltipComponents.add(Component.translatable("tooltip.rarity.chances").withStyle(ChatFormatting.GRAY));
 
-        // Ajouter chaque rareté avec son pourcentage
-        for (Map.Entry<String, Float> entry : rarityChances.entrySet()) {
-            String rarityName = entry.getKey();
-            float percentage = entry.getValue();
-            String percentageStr = String.format("%.1f%%", percentage);
-            String translationKey = "tooltip.rarity." + rarityName.toLowerCase();
-            pTooltipComponents.add(Component.translatable(translationKey, percentageStr).withStyle(ChatFormatting.GRAY));
+        // Définir l'ordre des raretés par niveau
+        String[] rarityOrder = {"common", "uncommon", "rare", "epic", "legendary", "mythic"};
+        
+        // Ajouter chaque rareté dans l'ordre de niveau
+        for (String rarityName : rarityOrder) {
+            Float percentage = rarityChances.get(rarityName);
+            if (percentage != null && percentage > 0) {
+                String percentageStr = String.format("%.1f%%", percentage);
+                String translationKey = "tooltip.rarity." + rarityName.toLowerCase();
+                pTooltipComponents.add(Component.translatable(translationKey, percentageStr).withStyle(ChatFormatting.GRAY));
+            }
         }
     }
 }
