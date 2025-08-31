@@ -1,0 +1,15 @@
+{
+  "id": "momentum",
+  "name": "Momentum",
+  "type": "on_tick",
+  "tag": "itemsrarity:armor",
+  "rarity_config": {
+    "common":    { "weight": 70, "min": -0.20, "max": -0.10 },
+    "uncommon":  { "weight": 60, "min": -0.15, "max": -0.05 },
+    "rare":      { "weight": 50, "min": -0.10, "max": 0 },
+    "epic":      { "weight": 0, "min": 0, "max": 0 },
+    "legendary": { "weight": 0, "min": 0, "max": 0 },
+    "mythic":    { "weight": 0, "min": 0, "max": 0 }
+  }
+
+}

@@ -19,7 +19,7 @@ public class LifeStealEffect implements GearEffect {
     @Override
     public void applyEffect(ItemStack stack, CompoundTag tag, float effectValue) {
         // Stocker la valeur de l'effet dans le tag NBT
-        tag.putFloat("LifeStealValue", effectValue);
+        tag.putFloat("LifeStealEffect", effectValue);
         
         // Ajouter l'ID de l'effet à la liste des effets
         ListTag effectsList = tag.getList("CustomEffects", 8);
@@ -30,8 +30,8 @@ public class LifeStealEffect implements GearEffect {
     @Override
     public void removeEffect(ItemStack weapon, CompoundTag tag) {
         // Supprimer la valeur spécifique de l'effet Life Steal
-        if (tag.contains("LifeStealValue")) {
-            tag.remove("LifeStealValue");
+        if (tag.contains("LifeStealEffect")) {
+            tag.remove("LifeStealEffect");
         }
     }
 
@@ -45,9 +45,9 @@ public class LifeStealEffect implements GearEffect {
         if (!weapon.hasTag()) return;
         
         CompoundTag tag = weapon.getTag();
-        if (tag == null || !tag.contains("LifeStealValue")) return;
+        if (tag == null || !tag.contains("LifeStealEffect")) return;
         
-        float lifestealPercent = tag.getFloat("LifeStealValue");
+        float lifestealPercent = tag.getFloat("LifeStealEffect");
         float damage = event.getAmount();
         float healAmount = damage * lifestealPercent;
         
@@ -66,8 +66,8 @@ public class LifeStealEffect implements GearEffect {
         if (!weapon.hasTag()) return 0.0f;
         
         CompoundTag tag = weapon.getTag();
-        if (tag == null || !tag.contains("LifeStealValue")) return 0.0f;
+        if (tag == null || !tag.contains("LifeStealEffect")) return 0.0f;
         
-        return tag.getFloat("LifeStealValue");
+        return tag.getFloat("LifeStealEffect");
     }
 }

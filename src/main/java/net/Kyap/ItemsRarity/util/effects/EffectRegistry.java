@@ -129,7 +129,7 @@ public class EffectRegistry {
     /**
      * Vérifie si un effet spécifique est appliqué sur un item
      */
-    private static boolean hasEffectApplied(ItemStack stack, String effectId) {
+    public static boolean hasEffectApplied(ItemStack stack, String effectId) {
         if (!stack.hasTag()) return false;
         
         CompoundTag tag = stack.getTag();
@@ -146,5 +146,16 @@ public class EffectRegistry {
         registerEffect(new LifeStealEffect());
         registerEffect(new CritChanceEffect());
         registerEffect(new DurabilityEffect());
+        registerEffect(new MomentumEffect());
+    }
+    
+    /**
+     * Nettoie les effets Momentum pour un joueur
+     */
+    public static void cleanupMomentumEffect(LivingEntity entity) {
+        GearEffect momentumEffect = getEffect("momentum");
+        if (momentumEffect instanceof MomentumEffect) {
+            MomentumEffect.cleanupMomentumEffect(entity);
+        }
     }
 }
