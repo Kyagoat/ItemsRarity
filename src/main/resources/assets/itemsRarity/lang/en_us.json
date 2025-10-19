@@ -13,6 +13,8 @@
   "item.itemsrarity.flourite.desc2": "with dark green colored.",
   "item.itemsrarity.flourite.desc3": "Easy to work with basic tools.",
 
+  "item.itemsrarity.emerald_hammer": "Emerald Hammer",
+
   "tooltip.rarity.chances": "Rarity Chances:",
   "tooltip.rarity.common": "Common: %s",
   "tooltip.rarity.uncommon": "Uncommon: %s",

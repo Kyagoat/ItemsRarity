@@ -23,6 +23,7 @@ public class ItemsRarityCreativeTabs {
                 output.accept(ModItems.SULFUR.get());
                 output.accept(ModItems.BISMUTH.get());
                 output.accept(ModBlocks.ENHANCED_ANVIL_BLOCK.get());
+                output.accept(ModItems.EMERALD_HAMMER.get());
             })
             .build());
 

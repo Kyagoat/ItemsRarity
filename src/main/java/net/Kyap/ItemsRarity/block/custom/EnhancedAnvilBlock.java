@@ -1,6 +1,7 @@
 package net.Kyap.ItemsRarity.block.custom;
 
 import net.Kyap.ItemsRarity.block.entity.custom.EnhancedAnvilBlockEntity;
+import net.Kyap.ItemsRarity.item.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -66,11 +67,9 @@ public class EnhancedAnvilBlock extends BaseEntityBlock {
         if (!pLevel.isClientSide()) {
             BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
             if (blockEntity instanceof EnhancedAnvilBlockEntity enhancedAnvil) {
-                
-                // TODO : Replace feather with a custom item for upgrading
                 ItemStack heldItem = pPlayer.getItemInHand(pHand);
-                boolean hasFeather = heldItem.getItem() == Items.FEATHER;
-                if (hasFeather) {
+                boolean hasEmeraldHammer = heldItem.getItem() == ModItems.EMERALD_HAMMER.get();
+                if (hasEmeraldHammer) {
                     boolean canUpgrade = enhancedAnvil.canUpgrade();
                     if (canUpgrade) {
                         boolean success = enhancedAnvil.performUpgrade();

@@ -2,6 +2,7 @@ package net.Kyap.ItemsRarity.item;
 
 import net.Kyap.ItemsRarity.ItemsRarity;
 import net.Kyap.ItemsRarity.item.custom.BismuthItem;
+import net.Kyap.ItemsRarity.item.custom.EmeraldHammer;
 import net.Kyap.ItemsRarity.item.custom.FlouriteItem;
 import net.Kyap.ItemsRarity.item.custom.SulfurItem;
 import net.minecraft.world.item.Item;
@@ -17,11 +18,14 @@ public class ModItems {
         public static final RegistryObject<Item> SULFUR =
             ITEMS.register("sulfur", () -> new SulfurItem(new Item.Properties()));
 
-         public static final RegistryObject<Item> BISMUTH =
+        public static final RegistryObject<Item> BISMUTH =
             ITEMS.register("bismuth", () -> new BismuthItem(new Item.Properties()));
 
         public static final RegistryObject<Item> FLOURITE =
             ITEMS.register("flourite", () -> new FlouriteItem(new Item.Properties()));
+
+        public static final RegistryObject<Item> EMERALD_HAMMER =
+                ITEMS.register("emerald_hammer", EmeraldHammer::new);
     
         public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
