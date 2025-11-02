@@ -1,0 +1,14 @@
+{
+  "id": "damage",
+  "name": "Damage",
+  "type": "on_hit",
+  "tag": "itemsrarity:sword",
+  "rarity_config": {
+    "common":    { "weight": 70, "min": -0.30, "max": -0.10 },
+    "uncommon":  { "weight": 60, "min": -0.15, "max": -0.05 },
+    "rare":      { "weight": 50, "min": -0.05, "max": 0.05 },
+    "epic":      { "weight": 40, "min": 0.05, "max": 0.15 },
+    "legendary": { "weight": 30, "min": 0.15, "max": 0.25 },
+    "mythic":    { "weight": 20, "min": 0.25, "max": 0.40 }
+  }
+}
