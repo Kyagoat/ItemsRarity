@@ -14,15 +14,15 @@ import net.minecraft.world.item.Rarity;
 import java.util.UUID;
 
 
-public class MomentumEffect implements GearEffect {
+public class SpeedEffect implements GearEffect {
     
     // UUIDs uniques pour chaque slot d'armure pour permettre le stacking
-    private static final UUID MOMENTUM_BOOTS_UUID = UUID.fromString("a1b2c3d4-e5f6-7890-abcd-ef1234567890");
-    private static final UUID MOMENTUM_LEGGINGS_UUID = UUID.fromString("b2c3d4e5-f607-8901-bcde-f12345678901");
-    private static final UUID MOMENTUM_CHESTPLATE_UUID = UUID.fromString("c3d4e5f6-a7b8-9012-cdef-123456789012");
-    private static final UUID MOMENTUM_HELMET_UUID = UUID.fromString("d4e5f6a7-b8c9-0123-def1-234567890123");
-    
-    private static final String MOMENTUM_MODIFIER_NAME = "Momentum Effect";
+    private static final UUID SPEED_BOOTS_UUID = UUID.fromString("a1b2c3d4-e5f6-7890-abcd-ef1234567890");
+    private static final UUID SPEED_LEGGINGS_UUID = UUID.fromString("b2c3d4e5-f607-8901-bcde-f12345678901");
+    private static final UUID SPEED_CHESTPLATE_UUID = UUID.fromString("c3d4e5f6-a7b8-9012-cdef-123456789012");
+    private static final UUID SPEED_HELMET_UUID = UUID.fromString("d4e5f6a7-b8c9-0123-def1-234567890123");
+
+    private static final String SPEED_MODIFIER_NAME = "Speed Effect";
 
     /**
      * Obtient l'UUID approprié selon le type d'armure pour permettre le stacking
@@ -30,26 +30,26 @@ public class MomentumEffect implements GearEffect {
     private static UUID getUUIDForItem(ItemStack stack) {
         String itemName = stack.getItem().toString().toLowerCase();
         if (itemName.contains("boots")) {
-            return MOMENTUM_BOOTS_UUID;
+            return SPEED_BOOTS_UUID;
         } else if (itemName.contains("leggings")) {
-            return MOMENTUM_LEGGINGS_UUID;
+            return SPEED_LEGGINGS_UUID;
         } else if (itemName.contains("chestplate")) {
-            return MOMENTUM_CHESTPLATE_UUID;
+            return SPEED_CHESTPLATE_UUID;
         } else if (itemName.contains("helmet")) {
-            return MOMENTUM_HELMET_UUID;
+            return SPEED_HELMET_UUID;
         }
-        return MOMENTUM_BOOTS_UUID; // Fallback
+        return SPEED_BOOTS_UUID; // Fallback
     }
 
     @Override
     public String getId() {
-        return "momentum";
+        return "speed";
     }
 
     @Override
     public void applyEffect(ItemStack stack, CompoundTag tag, float effectValue) {
         // Stocker la valeur de l'effet dans le tag NBT
-        tag.putFloat("MomentumEffect", effectValue);
+        tag.putFloat("SpeedEffect", effectValue);
         
         // Ajouter l'ID de l'effet à la liste des effets
         ListTag effectsList = tag.getList("CustomEffects", 8);
@@ -60,8 +60,8 @@ public class MomentumEffect implements GearEffect {
     @Override
     public void removeEffect(ItemStack weapon, CompoundTag tag) {
         // Supprimer la valeur spécifique de l'effet
-        if (tag.contains("MomentumEffect")) {
-            tag.remove("MomentumEffect");
+        if (tag.contains("SpeedEffect")) {
+            tag.remove("SpeedEffect");
         }
     }
     
@@ -69,11 +69,11 @@ public class MomentumEffect implements GearEffect {
     public static void cleanupMomentumEffect(LivingEntity entity) {
         AttributeInstance movementSpeed = entity.getAttribute(Attributes.MOVEMENT_SPEED);
         if (movementSpeed != null) {
-            // Nettoyer tous les modificateurs Momentum possibles
-            movementSpeed.removeModifier(MOMENTUM_BOOTS_UUID);
-            movementSpeed.removeModifier(MOMENTUM_LEGGINGS_UUID);
-            movementSpeed.removeModifier(MOMENTUM_CHESTPLATE_UUID);
-            movementSpeed.removeModifier(MOMENTUM_HELMET_UUID);
+            // Nettoyer tous les modificateurs Speed possibles
+            movementSpeed.removeModifier(SPEED_BOOTS_UUID);
+            movementSpeed.removeModifier(SPEED_LEGGINGS_UUID);
+            movementSpeed.removeModifier(SPEED_CHESTPLATE_UUID);
+            movementSpeed.removeModifier(SPEED_HELMET_UUID);
         }
     }
 
@@ -91,7 +91,7 @@ public class MomentumEffect implements GearEffect {
             if (value != 0) {
                 AttributeModifier modifier = new AttributeModifier(
                     itemUUID,
-                    MOMENTUM_MODIFIER_NAME + " (" + stack.getItem().toString() + ")",
+                    SPEED_MODIFIER_NAME + " (" + stack.getItem().toString() + ")",
                     value, // Valeur exacte (ex: -0.15 pour -15%)
                     AttributeModifier.Operation.MULTIPLY_TOTAL // Utiliser MULTIPLY_TOTAL pour un effet plus visible
                 );
@@ -112,8 +112,8 @@ public class MomentumEffect implements GearEffect {
         if (!weapon.hasTag()) return 0.0f;
         
         CompoundTag tag = weapon.getTag();
-        if (tag == null || !tag.contains("MomentumEffect")) return 0.0f;
+        if (tag == null || !tag.contains("SpeedEffect")) return 0.0f;
         
-        return tag.getFloat("MomentumEffect");
+        return tag.getFloat("SpeedEffect");
     }
 }

@@ -143,19 +143,19 @@ public class EffectRegistry {
      */
     public static void initializeEffects() {
         // Les effets seront enregistrés ici
-        registerEffect(new LifeStealEffect());
         registerEffect(new CritChanceEffect());
         registerEffect(new DurabilityEffect());
-        registerEffect(new MomentumEffect());
+        registerEffect(new SpeedEffect());
+        registerEffect(new DamageEffect());
     }
     
     /**
-     * Nettoie les effets Momentum pour un joueur
+     * Nettoie les effets Speed pour un joueur
      */
     public static void cleanupMomentumEffect(LivingEntity entity) {
-        GearEffect momentumEffect = getEffect("momentum");
-        if (momentumEffect instanceof MomentumEffect) {
-            MomentumEffect.cleanupMomentumEffect(entity);
+        GearEffect speedEffect = getEffect("speed");
+        if (speedEffect instanceof SpeedEffect) {
+            SpeedEffect.cleanupMomentumEffect(entity);
         }
     }
 }

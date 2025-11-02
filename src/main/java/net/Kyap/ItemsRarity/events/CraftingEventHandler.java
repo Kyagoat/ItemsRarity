@@ -38,9 +38,6 @@ public class CraftingEventHandler {
             // Cas simple : un seul item
             UpgradeHelper.upgradeItem(craftedItem, getRandomCraftingRarity());
         } else {
-            // Cas complexe : plusieurs items - on doit les séparer
-            LOGGER.info("Handling mass crafting of {} items", stackSize);
-            
             // Vider le stack original
             craftedItem.setCount(0);
             
