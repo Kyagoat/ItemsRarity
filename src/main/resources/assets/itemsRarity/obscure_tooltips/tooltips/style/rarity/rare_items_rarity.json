@@ -1,0 +1,11 @@
+{
+  "priority": 1000,
+  "panel": "itemsrarity:silver",
+  "frame": "itemsrarity:silver",
+  "icon": "itemsrarity:rare",
+  "filter": {
+    "tag": {
+      "custom_rarity": "rare"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "priority": 1000,
+  "panel": "itemsrarity:legendary",
+  "frame": "itemsrarity:legendary",
+  "icon": "itemsrarity:legendary",
+  "filter": {
+    "tag": {
+      "custom_rarity": "legendary"
+    }
+  },
+  "label": ""
+}

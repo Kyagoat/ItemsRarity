@@ -1,0 +1,11 @@
+{
+  "priority": 1000,
+  "panel": "itemsrarity:epic",
+  "frame": "itemsrarity:epic",
+  "icon": "itemsrarity:epic",
+  "filter": {
+    "tag": {
+      "custom_rarity": "epic"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "panel": "itemsrarity:silver",
+  "frame": "itemsrarity:silver",
+  "icon": "itemsrarity:rare",
+  "effects": [],
+  "filter": {
+    "type": "obscure_tooltips:rarity",
+    "rarity": "rare"
+  }
+}

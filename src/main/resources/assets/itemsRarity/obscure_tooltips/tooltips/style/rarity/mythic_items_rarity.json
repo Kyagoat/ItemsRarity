@@ -1,0 +1,11 @@
+{
+  "priority": 1000,
+  "panel": "itemsrarity:mythic",
+  "frame": "itemsrarity:mythic",
+  "icon": "itemsrarity:mythic",
+  "filter": {
+    "tag": {
+      "custom_rarity": "mythic"
+    }
+  }
+}
