@@ -15,6 +15,13 @@
 
   "item.itemsrarity.emerald_hammer": "Emerald Hammer",
 
+  "rarity.common": "Common",
+  "rarity.uncommon": "Uncommon",
+  "rarity.rare": "Rare",
+  "rarity.epic": "Epic",
+  "rarity.legendary": "Legendary",
+  "rarity.mythic": "Mythic",
+
   "tooltip.rarity.chances": "Rarity Chances:",
   "tooltip.rarity.common": "Common: %s",
   "tooltip.rarity.uncommon": "Uncommon: %s",
