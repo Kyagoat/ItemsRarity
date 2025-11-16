@@ -14,8 +14,8 @@ Each upgrade consumes:
 - 1 rarity material (Manganese, Bismuth, or Osmium)
 - 1 base material related to the item being upgraded (e.g., iron ingot for iron items)
 - The item itself
-
-In the near future, a hammer item will be required to perform upgrades. It will have very low durability (configurable).  
+- An emerald hammer craftable with 3 emeralds blocks and 2 sticks
+- 
 This feature is meant to introduce resource destruction in the modpack, which is one of the main reasons I started coding this mod.
 
 If the item has no known recipe, a default rare material from this mod will be used instead (currently a feather as a placeholder, to be replaced later).
@@ -31,7 +31,7 @@ The Upgraded Anvil is required for performing upgrades and is crafted using:
 ### Advanced Tooltip System
 
 - Custom visual effects
-- Compatible with mods like **Obscure Tooltip** and **Legendary Tooltip** via mixins
+- Compatible with mods like **Obscure Tooltip** with custom tooltip put in the mod directly.
 
 ---
 
@@ -41,49 +41,29 @@ The Upgraded Anvil is required for performing upgrades and is crafted using:
 
 | Material  | Possible Rarity Outcomes                |
 |-----------|------------------------------------------|
-| Manganese | Common / Uncommon / Rare / Epic         |
-| Osmium    | Uncommon / Rare / Epic / Legendary      |
+| Flourite  | Common / Uncommon / Rare / Epic         |
+| Sulfur    | Uncommon / Rare / Epic / Legendary      |
 | Bismuth   | Rare / Epic / Legendary / Mythic        |
 
-The default rarity chances are defined as follows:
-
-Example for Bismuth:
-{id: "bismuth", name: "Bismuth", rarity_chances: {
-  "rare": 0.35,
-  "epic": 0.45,
-  "legendary": 0.15,
-  "mythic": 0.05
-}}
+The default rarity chances are defined in the config file
 
 > Both the rarity tiers and their probability rates are **fully data-driven**, meaning you can add, remove, or tweak them as needed.
 
 ---
 
-## Automatic Rarity Assignment *(to be implemented)*
+## Automatic Rarity Assignment
 
-Items will automatically receive a rarity when:
-- Dropped by mobs
-- Found in loot chests
+The default rarity chances are defined in the config file
 
----
 
-## Gameplay Effects
+## Gameplay Effects (WIP)
 
-Currently, effects are only applied to weapons:
+Effects applied to weapons:
 - Decreased critical hit chance
 - Increased critical hit chance
-- Vampirism percentage based on damage dealt
-
----
-
-## Rarity Effects System
-
-Rarity grants gameplay effects to gear, and also allows a certain number of effect slots:
-
-- **Common** and **Uncommon**: 1 slot, with more malus than bonus effects
-- **Rare** and **Epic**: 2 slots, with more bonus than malus effects
-- **Legendary**: 3 slots, only bonuses with access to rarer effects
-- **Mythic**: 4 slots, only bonuses with higher chances of powerful effects
+- Decreased attack damage
+- Increase attack damage
+- Decreased durability
 
 ---
 
