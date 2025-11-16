@@ -31,7 +31,7 @@ The Upgraded Anvil is required for performing upgrades and is crafted using:
 ### Advanced Tooltip System
 
 - Custom visual effects
-- Compatible with mods like **Obscure Tooltip** with custom tooltip put in the mod directly.
+- Compatible with mods like **Obscure Tooltip** or **Legendary Tooltips**.
 
 ---
 
