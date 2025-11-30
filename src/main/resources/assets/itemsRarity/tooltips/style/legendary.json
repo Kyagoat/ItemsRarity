@@ -1,9 +1,0 @@
-{
-  "panel": "itemsrarity:legendary",
-  "frame": "itemsrarity:legendary",
-  "icon": "itemsrarity:legendary",
-  "effects": [
-    "itemsrarity:legendary_ray_glow",
-    "itemsrarity:legendary_icon_particles"
-  ]
-}

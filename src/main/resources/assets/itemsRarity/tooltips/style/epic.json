@@ -1,9 +1,0 @@
-{
-  "panel": "itemsrarity:epic",
-  "frame": "itemsrarity:epic",
-  "icon": "itemsrarity:epic",
-  "effects": [
-    "itemsrarity:epic_ray_glow",
-    "itemsrarity:epic_icon_particles"
-  ]
-}

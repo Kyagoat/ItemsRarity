@@ -1,9 +1,0 @@
-{
-  "panel": "itemsrarity:mythic",
-  "frame": "itemsrarity:mythic",
-  "icon": "itemsrarity:mythic",
-  "effects": [
-    "itemsrarity:mythic_ray_glow",
-    "itemsrarity:mythic_icon_particles"
-  ]
-}

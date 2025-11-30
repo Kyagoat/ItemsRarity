@@ -1,0 +1,10 @@
+{
+  "panel": "itemsrarity:mythic",
+  "frame": "itemsrarity:mythic",
+  "icon": "obscure_tooltips:default",
+  "effects": [
+    "itemsrarity:mythic_ray_glow",
+    "itemsrarity:mythic_icon_particles",
+    "obscure_tooltips:curse_particles"
+  ]
+}
