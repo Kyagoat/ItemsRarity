@@ -15,7 +15,7 @@ Each upgrade consumes:
 - 1 base material related to the item being upgraded (e.g., iron ingot for iron items)
 - The item itself
 - An emerald hammer craftable with 3 emeralds blocks and 2 sticks
-- 
+  
 This feature is meant to introduce resource destruction in the modpack, which is one of the main reasons I started coding this mod.
 
 If the item has no known recipe, a default rare material from this mod will be used instead (currently a feather as a placeholder, to be replaced later).
