@@ -2,160 +2,67 @@ package net.Kyap.ItemsRarity.util.effects;
 
 import net.Kyap.ItemsRarity.util.effects.data.EffectConfigHelper;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class EffectRegistry {
-    
-    private static final Map<String, GearEffect> REGISTERED_EFFECTS = new HashMap<>();
-    
-    /**
-     * Enregistre un effet dans le système
-     */
-    public static void registerEffect(GearEffect effect) {
-        REGISTERED_EFFECTS.put(effect.getId(), effect);
+
+    private static final Map<String, GearEffect> effects = new HashMap<>();
+
+    public static void registerEffect(String id, GearEffect effect) {
+        effects.put(id, effect);
     }
-    
-    /**
-     * Obtient un effet par son ID
-     */
-    public static GearEffect getEffect(String effectId) {
-        return REGISTERED_EFFECTS.get(effectId);
+
+    public static GearEffect getEffect(String id) {
+        return effects.get(id);
     }
-    
-    /**
-     * Obtient tous les effets enregistrés
-     */
-    public static Map<String, GearEffect> getAllEffects() {
-        return REGISTERED_EFFECTS;
+
+    public static void initializeEffects() {
+        registerEffect("damage", new StandardAttributeEffect("damage"));
+        registerEffect("crit_chance", new StandardAttributeEffect("crit_chance"));
+        registerEffect("speed", new StandardAttributeEffect("speed"));
+        registerEffect("health", new StandardAttributeEffect("health"));
+        registerEffect("crit_damage", new StandardAttributeEffect("crit_damage"));
+        registerEffect("armor_penetration", new StandardAttributeEffect("armor_penetration"));
+        registerEffect("durability", new DurabilityEffect());
+        registerEffect("life_steal", new StandardAttributeEffect("life_steal"));
+        registerEffect("dodge", new StandardAttributeEffect("dodge"));
+        registerEffect("armor_pierce", new StandardAttributeEffect("armor_pierce"));
+        registerEffect("arrow_damage", new StandardAttributeEffect("arrow_damage"));
+        registerEffect("overheal", new StandardAttributeEffect("overheal"));
     }
-    
-    /**
-     * Vérifie si un effet est enregistré
-     */
-    public static boolean isEffectRegistered(String effectId) {
-        return REGISTERED_EFFECTS.containsKey(effectId);
-    }
-    
-    /**
-     * Applique un effet sur un item avec sa valeur basée sur la rareté
-     */
+
     public static void applyEffectToItem(String effectId, ItemStack stack, CompoundTag tag) {
         GearEffect effect = getEffect(effectId);
+
         if (effect == null || !effect.isApplicableTo(stack)) return;
-        
+
         Rarity rarity = stack.getRarity();
         float effectValue = EffectConfigHelper.getRandomEffectValue(effectId, rarity);
-        
-        // Permettre les valeurs négatives et positives (mais pas 0)
+
         if (effectValue != 0) {
             effect.applyEffect(stack, tag, effectValue);
         }
     }
-    
-    /**
-     * Supprime complètement tous les effets personnalisés et leurs valeurs d'un item
-     */
-    public static void removeAllEffect(ItemStack stack){
+
+    public static void removeAllEffect(ItemStack stack) {
         if (!stack.hasTag()) return;
 
         CompoundTag tag = stack.getTag();
-        if (tag == null) return;
 
-        // Supprimer la liste des effets
+        assert tag != null;
         if (tag.contains("CustomEffects")) {
-            // Avant de supprimer la liste, nettoyer les valeurs individuelles des effets
-            ListTag effectsList = tag.getList("CustomEffects", 8);
-            for (int i = 0; i < effectsList.size(); i++) {
-                String effectId = effectsList.getString(i);
-                GearEffect effect = getEffect(effectId);
-                if (effect != null) {
-                    // Supprimer les valeurs spécifiques de chaque effet
-                    effect.removeEffect(stack, tag);
-                }
-            }
-            
-            // Supprimer la liste des effets
             tag.remove("CustomEffects");
         }
-        
-        stack.setTag(tag);
-    }
 
-    /**
-     * Gère les événements onHit pour tous les effets d'un item
-     */
-    public static void handleOnHitEffects(LivingEntity attacker, LivingEntity target, ItemStack weapon, LivingHurtEvent event) {
-        if (!weapon.hasTag()) return;
-        
-        CompoundTag tag = weapon.getTag();
-        if (tag == null || !tag.contains("CustomEffects")) return;
-        
-        // Parcourir tous les effets sur l'item
-        for (String effectId : REGISTERED_EFFECTS.keySet()) {
-            GearEffect effect = getEffect(effectId);
-            if (effect != null && hasEffectApplied(weapon, effectId)) {
-                String effectType = EffectConfigHelper.getEffectType(effectId);
-                if ("on_hit".equals(effectType)) {
-                    effect.onHit(attacker, target, weapon, event);
-                }
-            }
-        }
-    }
-    
-    /**
-     * Gère les événements onTick pour tous les effets d'un item
-     */
-    public static void handleOnTickEffects(LivingEntity holder, ItemStack stack) {
-        if (!stack.hasTag()) return;
-        
-        for (String effectId : REGISTERED_EFFECTS.keySet()) {
-            GearEffect effect = getEffect(effectId);
-            if (effect != null && hasEffectApplied(stack, effectId)) {
-                String effectType = EffectConfigHelper.getEffectType(effectId);
-                if ("on_tick".equals(effectType) || "passive".equals(effectType)) {
-                    effect.onTick(holder, stack, stack.getRarity());
-                }
-            }
-        }
-    }
-    
-    /**
-     * Vérifie si un effet spécifique est appliqué sur un item
-     */
-    public static boolean hasEffectApplied(ItemStack stack, String effectId) {
-        if (!stack.hasTag()) return false;
-        
-        CompoundTag tag = stack.getTag();
-        if (tag == null || !tag.contains("CustomEffects")) return false;
-        
-        return tag.getList("CustomEffects", 8).toString().contains(effectId);
-    }
-    
-    /**
-     * Initialise tous les effets par défaut
-     */
-    public static void initializeEffects() {
-        // Les effets seront enregistrés ici
-        registerEffect(new CritChanceEffect());
-        registerEffect(new DurabilityEffect());
-        registerEffect(new SpeedEffect());
-        registerEffect(new DamageEffect());
-    }
-    
-    /**
-     * Nettoie les effets Speed pour un joueur
-     */
-    public static void cleanupMomentumEffect(LivingEntity entity) {
-        GearEffect speedEffect = getEffect("speed");
-        if (speedEffect instanceof SpeedEffect) {
-            SpeedEffect.cleanupMomentumEffect(entity);
+        if (tag.contains("DurabilityEffect")) tag.remove("DurabilityEffect");
+        if (tag.contains("durability")) tag.remove("durability");
+
+        if (tag.contains("AttributeModifiers")) {
+            tag.remove("AttributeModifiers");
         }
     }
 }

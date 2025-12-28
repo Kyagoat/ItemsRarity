@@ -1,6 +1,9 @@
 package net.Kyap.ItemsRarity.util;
 import net.Kyap.ItemsRarity.item.ModItems;
 import net.Kyap.ItemsRarity.util.rarity.data.RarityRatesDataManager;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -12,18 +15,38 @@ public class UpgradeHelper {
         if (stack.isEmpty()) {
             return false;
         }
+
+        if (isStackInConfigTags(stack)) {
+            return true;
+        }
+
         Item item = stack.getItem();
-        // Vérifier si c'est une pièce d'armure ou arme
         return (item instanceof TieredItem || item instanceof ArmorItem);
     }
 
+    private static boolean isStackInConfigTags(ItemStack stack) {
+        String modId = "itemsrarity";
+
+        return checkTag(stack, modId, "swords") ||
+                checkTag(stack, modId, "axes") ||
+                checkTag(stack, modId, "pickaxes") ||
+                checkTag(stack, modId, "shovels") ||
+                checkTag(stack, modId, "hoes") ||
+                checkTag(stack, modId, "helmet") ||
+                checkTag(stack, modId, "chestplate") ||
+                checkTag(stack, modId, "leggings") ||
+                checkTag(stack, modId, "boots") ||
+                checkTag(stack, modId, "bows");
+    }
+
+    private static boolean checkTag(ItemStack stack, String namespace, String path) {
+        return stack.is(TagKey.create(Registries.ITEM, new ResourceLocation(namespace, path)));
+    }
+
     public static boolean hasValidResources(ItemStack resourceStack, ItemStack modMaterialStack) {
-        // Vérifier que les stacks ne sont pas vides
         if (resourceStack.isEmpty() || modMaterialStack.isEmpty()) {
             return false;
         }
-
-        // Vérifier que le slot de droite contient une de nos ressources personnalisées
         return isCustomModResource(modMaterialStack);
     }
 
@@ -35,10 +58,8 @@ public class UpgradeHelper {
             return false;
         }
 
-        // Obtenir l'item original si c'est un item transformé
         Item originalGearItem = gearItem.getItem();
         
-        // Obtenir la ressource de réparation de l'item original
         ItemStack[] repairMaterial = getRepairMaterial(originalGearItem);
 
         resourceItem.getItem();
@@ -68,7 +89,7 @@ public class UpgradeHelper {
      * Obtient la ressource de réparation d'un item (basé sur le type d'item)
      * Si l'item n'a pas de ressource de réparation connue, accepte la plume
      */
-    private static ItemStack[] getRepairMaterial(Item item) {
+    public static ItemStack[] getRepairMaterial(Item item) {
 
         if (item instanceof TieredItem tieredItem) {
             Ingredient ing = tieredItem.getTier().getRepairIngredient();
@@ -111,13 +132,12 @@ public class UpgradeHelper {
 
     public static boolean upgradeItem(ItemStack stack, ModRarities.ModRarity newRarity) {
         ModRarities.ModRarity currentRarity = getRarityFromItem(stack);
-        // Seulement appliquer l'upgrade et reroll les effets si la nouvelle rareté est supérieure ou égale
         if (currentRarity == null || newRarity.getLevel() >= currentRarity.getLevel()) {
             applyRarityToItem(stack, newRarity);
             EffectPoolSystem.rollEffectsOnItem(stack);
-            return true; // Upgrade réussi
+            return true;
         }
-        return false; // Upgrade échoué - nouvelle rareté inférieure
+        return false;
     }
 
 }

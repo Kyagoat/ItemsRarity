@@ -28,7 +28,6 @@ public class EffectPoolSystem {
     public static void rollEffectsOnItem(ItemStack stack) {
         EffectRegistry.removeAllEffect(stack);
 
-        // Get max number of applicable effects based on the object's rarity
         int maxEffects = EFFECTS_COUNT.getOrDefault(stack.getRarity(), 1);
         
         List<String> applicableEffects = getApplicableEffectsForItem(stack);
@@ -71,7 +70,7 @@ public class EffectPoolSystem {
             String selectedEffect = selectWeightedRandomEffect(effectsPool, rarity);
             if (selectedEffect != null) {
                 selectedEffects.add(selectedEffect);
-                effectsPool.remove(selectedEffect); // Remove selected effect to avoid duplicates
+                effectsPool.remove(selectedEffect);
             }
         }
         return selectedEffects;
@@ -83,7 +82,6 @@ public class EffectPoolSystem {
     private static String selectWeightedRandomEffect(List<String> effects, Rarity rarity) {
         if (effects.isEmpty()) return null;
         
-        // Calculate total weight of all effects
         int totalWeight = 0;
         for (String effectId : effects) {
             totalWeight += EffectConfigHelper.getEffectWeight(effectId, rarity);
@@ -91,7 +89,6 @@ public class EffectPoolSystem {
         
         if (totalWeight <= 0) return null;
         
-        // Select a random effect based on weights
         int randomValue = RANDOM.nextInt(totalWeight); // Random value in range of total weight
         int currentWeight = 0;
         
@@ -101,6 +98,6 @@ public class EffectPoolSystem {
                 return effectId;
             }
         }
-        return effects.get(0); // Fallback
+        return effects.get(0);
     }
 }

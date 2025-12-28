@@ -9,9 +9,9 @@
   "server": [
   ],
   "mixins": [
+    "ItemStackHurtMixin",
     "ItemStackMixin",
-    "PlayerMixin",
-    "ItemStackHurtMixin"
+    "MixinPlayer"
   ],
   "injectors": {
     "defaultRequire": 1

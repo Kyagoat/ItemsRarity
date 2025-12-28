@@ -19,7 +19,6 @@ public abstract class ItemStackHurtMixin {
         ItemStack stack = (ItemStack)(Object)this;
 
         if (!stack.hasTag()) {
-            System.out.println("[ItemStackHurtMixin] No tag found on item");
             return amount;
         }
 
@@ -32,7 +31,7 @@ public abstract class ItemStackHurtMixin {
             if (multiplier > 1.0f) {
                 newAmount = (int)Math.max(1, Math.ceil(amount * multiplier));
             } else {
-                newAmount = (int)Math.max(1, Math.round(amount * multiplier));
+                newAmount = Math.max(1, Math.round(amount * multiplier));
             }
             return newAmount;
         }

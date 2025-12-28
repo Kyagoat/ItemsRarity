@@ -220,7 +220,6 @@ public class RarityRatesDataManager extends SimpleJsonResourceReloadListener {
      */
     public static ModRarities.ModRarity getModRarityFromName(String name) {
         return switch (name.toLowerCase()) {
-            case "common" -> ModRarities.ModRarity.COMMON;
             case "uncommon" -> ModRarities.ModRarity.UNCOMMON;
             case "rare" -> ModRarities.ModRarity.RARE;
             case "epic" -> ModRarities.ModRarity.EPIC;

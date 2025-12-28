@@ -1,0 +1,56 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:wooden_sword",
+    "minecraft:stone_sword",
+    "minecraft:iron_sword",
+    "minecraft:golden_sword",
+    "minecraft:diamond_sword",
+    "minecraft:netherite_sword",
+
+    "endermanoverhaul:corrupted_blade",
+
+    "itemsrarity:emerald_hammer",
+
+    "mowziesmobs:wrought_axe",
+    "mowziesmobs:spear",
+    "mowziesmobs:naga_fang_dagger",
+
+    "farmersdelight:skillet",
+    "farmersdelight:flint_knife",
+    "farmersdelight:iron_knife",
+    "farmersdelight:diamond_knife",
+    "farmersdelight:netherite_knife",
+    "farmersdelight:golden_knife",
+
+    "terramity:murasama",
+    "terramity:sword_of_the_imprisoned",
+    "terramity:virentium_sword",
+    "terramity:conductite_sword",
+    "terramity:exodium_sword",
+    "terramity:hamstick_cudgel",
+    "terramity:reverium_sword",
+    "terramity:gobs_claymore",
+    "terramity:void_sword",
+    "terramity:iridium_sword",
+    "terramity:hellspec_sword",
+    "terramity:duskrok_greatsword",
+    "terramity:cosmilite_sword",
+    "terramity:dimlite_sword",
+    "terramity:onyx_sword",
+    "terramity:topaz_sword",
+    "terramity:sapphire_sword",
+    "terramity:ruby_sword",
+    "terramity:yoru",
+    "terramity:hero_sword",
+    "terramity:crescent_moonblade",
+    "terramity:guiding_moonlight",
+    "terramity:unholy_lance",
+    "terramity:orders_end",
+    "terramity:axe_of_unholy_divinity",
+    "terramity:stratus_storm_ruler",
+    "terramity:hellrok_gigaton_hammer",
+    "terramity:excalibur",
+    "terramity:devastation"
+  ]
+}

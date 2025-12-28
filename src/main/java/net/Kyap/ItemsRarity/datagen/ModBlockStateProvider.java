@@ -13,8 +13,6 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        // Enhanced anvil block uses custom model files, so we skip auto-generation
-        // blockWithItem(ModBlocks.ENHANCED_ANVIL_BLOCK);
+
     }
-        // This method can be used to add block tags if needed in the future
 }

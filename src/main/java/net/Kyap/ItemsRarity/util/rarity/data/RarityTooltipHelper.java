@@ -13,7 +13,7 @@ public class RarityTooltipHelper {
      */
     public static void addRarityTooltips(List<Component> pTooltipComponents, String materialId) {
         Map<String, Float> rarityChances = RarityRatesDataManager.getUpgradeRarityChances(materialId);
-        if (rarityChances == null || rarityChances.isEmpty()) return;
+        if (rarityChances.isEmpty()) return;
         
         // Ajouter le titre des chances de rareté
         pTooltipComponents.add(Component.literal(""));

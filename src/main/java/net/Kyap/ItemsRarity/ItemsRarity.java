@@ -8,7 +8,6 @@ import net.Kyap.ItemsRarity.item.ItemsRarityCreativeTabs;
 import net.Kyap.ItemsRarity.item.ModItems;
 import net.Kyap.ItemsRarity.screen.EnhancedAnvilBlockScreen;
 import net.Kyap.ItemsRarity.screen.ModMenuTypes;
-import net.Kyap.ItemsRarity.util.effects.GearEffectHandler;
 import net.Kyap.ItemsRarity.util.effects.EffectRegistry;
 import net.Kyap.ItemsRarity.util.rarity.data.RarityDataManager;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -32,7 +31,6 @@ public class ItemsRarity {
     public static final String MOD_ID = "itemsrarity";
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    // Instance du RarityDataManager
     private static final RarityDataManager RARITY_DATA_MANAGER = new RarityDataManager();
 
     public ItemsRarity(FMLJavaModLoadingContext context) {
@@ -45,7 +43,6 @@ public class ItemsRarity {
         ModBlocks.register(modEventBus);
         ModBlockEntities.register(modEventBus);
         ModMenuTypes.register(modEventBus);
-        MinecraftForge.EVENT_BUS.register(GearEffectHandler.class);
         modEventBus.addListener(this::commonSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
@@ -54,7 +51,6 @@ public class ItemsRarity {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        // Initialiser le registre des effets
         EffectRegistry.initializeEffects();
     }
 
@@ -76,8 +72,6 @@ public class ItemsRarity {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
             MenuScreens.register(ModMenuTypes.ENHANCED_ANVIL_MENU.get(), EnhancedAnvilBlockScreen::new);
-
-            // Enregistrer le renderer pour l'Enhanced Anvil Block Entity
             BlockEntityRenderers.register(ModBlockEntities.ENHANCED_ANVIL_BE.get(),
                     EnhancedBlockEntityRenderer::new);
         }

@@ -2,7 +2,7 @@
   "id": "speed",
   "name": "Speed",
   "type": "on_tick",
-  "tag": "itemsrarity:armor",
+  "tag": "itemsrarity:armors",
   "rarity_config": {
     "common":    { "weight": 70, "min": -0.20, "max": -0.10 },
     "uncommon":  { "weight": 60, "min": -0.15, "max": -0.05 },

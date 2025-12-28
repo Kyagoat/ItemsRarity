@@ -14,9 +14,9 @@ import static net.Kyap.ItemsRarity.util.effects.data.EffectConfigHelper.getEffec
 public interface GearEffect {
     String name = null;
 
-    String getId(); // Exemple : "life_steal"
+    String getId();
 
-    boolean isApplicableTo(ItemStack stack); // ex : seulement pour les épées
+    boolean isApplicableTo(ItemStack stack);
 
     void applyEffect(ItemStack weapon, CompoundTag tag, float effectValue); // modifier les nbt avec la valeur calculée
 

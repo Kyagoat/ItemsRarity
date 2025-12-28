@@ -18,10 +18,17 @@ public class EffectConfigHelper {
      */
     public static boolean isItemValidForEffect(ItemStack stack, String effectId) {
         EffectJsonData config = EffectDataManager.getEffectConfig(effectId);
-        if (config == null || config.tag == null) return false;
+
+        if (config == null) {
+            return false;
+        }
+
+        if (config.tag == null) {
+            return false;
+        }
 
         try {
-            ResourceLocation tagLocation = ResourceLocation.parse(config.tag);
+            ResourceLocation tagLocation = new ResourceLocation(config.tag);
             TagKey<Item> itemTag = TagKey.create(BuiltInRegistries.ITEM.key(), tagLocation);
             return stack.is(itemTag);
         } catch (Exception e) {
@@ -70,13 +77,5 @@ public class EffectConfigHelper {
      */
     public static boolean canEffectAppearOnRarity(String effectId, Rarity rarity) {
         return getEffectWeight(effectId, rarity) > 0;
-    }
-
-    /**
-     * Obtient le type d'effet (on_hit, passive, etc.)
-     */
-    public static String getEffectType(String effectId) {
-        EffectJsonData config = EffectDataManager.getEffectConfig(effectId);
-        return config != null ? config.type : null;
     }
 }

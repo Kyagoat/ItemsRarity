@@ -85,17 +85,20 @@ public class ParticleAnvilBlock {
      * Determines the color of the particles based on the rarity of the item
      */
     private static Vec3 getParticleColorForRarity(ItemStack stack) {
-        if (stack.hasTag() && stack.getTag().contains("custom_rarity")) {
-            String customRarityName = stack.getTag().getString("custom_rarity");
-            return switch (customRarityName) {
-                case "common" -> new Vec3(0.6, 0.6, 0.6);
-                case "uncommon" -> new Vec3(0.2, 0.8, 0.2);
-                case "rare" -> new Vec3(0.2, 0.2, 1.0);
-                case "epic" -> new Vec3(1.0, 0.0, 1.0);
-                case "legendary" -> new Vec3(1.0, 0.5, 0.0);
-                case "mythic" -> new Vec3(1.0, 0.0, 0.0);
-                default -> throw new IllegalStateException("Unexpected value: " + customRarityName);
-            };
+        if (stack.hasTag()) {
+            assert stack.getTag() != null;
+            if (stack.getTag().contains("custom_rarity")) {
+                String customRarityName = stack.getTag().getString("custom_rarity");
+                return switch (customRarityName) {
+                    case "common" -> new Vec3(0.6, 0.6, 0.6);
+                    case "uncommon" -> new Vec3(0.2, 0.8, 0.2);
+                    case "rare" -> new Vec3(0.2, 0.2, 1.0);
+                    case "epic" -> new Vec3(1.0, 0.0, 1.0);
+                    case "legendary" -> new Vec3(1.0, 0.5, 0.0);
+                    case "mythic" -> new Vec3(1.0, 0.0, 0.0);
+                    default -> throw new IllegalStateException("Unexpected value: " + customRarityName);
+                };
+            }
         }
         Rarity rarity = stack.getRarity();
         return switch (rarity) {
@@ -111,7 +114,6 @@ public class ParticleAnvilBlock {
      * The higher the rarity, the more particles are generated
      */
     private static int getParticleMultiplierForRarity(ItemStack stack) {
-        // Verify if the item has a custom rarity tag
         if (stack.hasTag() && stack.getTag().contains("custom_rarity")) {
             String customRarityName = stack.getTag().getString("custom_rarity");
             return switch (customRarityName) {
@@ -124,7 +126,6 @@ public class ParticleAnvilBlock {
             };
         }
 
-        // Otherwise, use the default rarity system
         Rarity rarity = stack.getRarity();
         return switch (rarity) {
             case COMMON -> 1;

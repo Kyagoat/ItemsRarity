@@ -1,0 +1,14 @@
+{
+  "id": "armor_pierce",
+  "name": "Armor Pen.",
+  "type": "on_hit",
+  "tag": "itemsrarity:swords",
+  "rarity_config": {
+    "common":    { "weight": 0,  "min": 0, "max": 0 },
+    "uncommon":  { "weight": 20, "min": 0.5, "max": 1.0 },
+    "rare":      { "weight": 30, "min": 1.0, "max": 2.0 },
+    "epic":      { "weight": 40, "min": 2.0, "max": 4.0 },
+    "legendary": { "weight": 30, "min": 4.0, "max": 6.0 },
+    "mythic":    { "weight": 20, "min": 6.0, "max": 10.0 }
+  }
+}

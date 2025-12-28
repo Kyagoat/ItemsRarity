@@ -2,7 +2,7 @@
   "id": "durability",
   "name": "Durability",
   "type": "passive",
-  "tag": "itemsrarity:sword",
+  "tag": "itemsrarity:swords",
   "rarity_config": {
     "common":    { "weight": 70,    "min": -0.40,   "max": -0.15 },
     "uncommon":  { "weight": 60,   "min": -0.15,   "max": -0.05 },

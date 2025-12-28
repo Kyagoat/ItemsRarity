@@ -19,7 +19,6 @@ public class InventoryMonitorHandler {
     
     private static final Logger LOGGER = LogUtils.getLogger();
     
-    // Surveillance des inventaires des joueurs
     private static final Map<UUID, Map<Item, Integer>> playerItemCounts = new HashMap<>();
     
     @SubscribeEvent
@@ -31,10 +30,7 @@ public class InventoryMonitorHandler {
         Player player = event.player;
         UUID playerId = player.getUUID();
         
-        // Vérifier l'inventaire du joueur pour détecter les nouveaux items craftés
         Map<Item, Integer> currentItemCounts = new HashMap<>();
-        
-        // Compter seulement les items sans rareté dans l'inventaire
         for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
             ItemStack stack = player.getInventory().getItem(i);
             if (!stack.isEmpty() && isItemUpgradable(stack) && !hasRarity(stack)) {
@@ -42,25 +38,17 @@ public class InventoryMonitorHandler {
                 currentItemCounts.put(item, currentItemCounts.getOrDefault(item, 0) + stack.getCount());
             }
         }
-        
-        // Comparer avec le count précédent
         Map<Item, Integer> previousCounts = playerItemCounts.getOrDefault(playerId, new HashMap<>());
-        
         for (Map.Entry<Item, Integer> entry : currentItemCounts.entrySet()) {
             Item item = entry.getKey();
             int currentCount = entry.getValue();
             int previousCount = previousCounts.getOrDefault(item, 0);
-            
+
             if (currentCount > previousCount) {
-                // Le joueur a gagné des items de ce type
                 int newItemsCount = currentCount - previousCount;
-                
-                // Appliquer la rareté aux nouveaux items sans rareté
                 applyRarityToNewItems(player, item, newItemsCount);
             }
         }
-        
-        // Mettre à jour le count
         playerItemCounts.put(playerId, currentItemCounts);
     }
     
@@ -68,17 +56,11 @@ public class InventoryMonitorHandler {
      * Applique la rareté aux nouveaux items dans l'inventaire du joueur
      */
     private static void applyRarityToNewItems(Player player, Item item, int newItemsCount) {
-        LOGGER.info("Player {} gained {} new items of type {}", player.getName().getString(), newItemsCount, item.getDescriptionId());
-        
-        // Parcourir l'inventaire pour trouver les items sans rareté
         for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
             ItemStack stack = player.getInventory().getItem(i);
             
             if (!stack.isEmpty() && stack.getItem() == item && !hasRarity(stack)) {
-                // Appliquer directement une rareté au stack entier
-                // (tous les items dans le stack auront la même rareté)
                 UpgradeHelper.upgradeItem(stack, CraftingEventHandler.getRandomCraftingRarity());
-
                 LOGGER.info("Applied rarity to stack of {} items at slot {}", stack.getCount(), i);
             }
         }

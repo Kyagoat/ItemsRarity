@@ -1,0 +1,14 @@
+{
+  "id": "overheal",
+  "name": "Overheal",
+  "type": "passive",
+  "tag": "itemsrarity:armors",
+  "rarity_config": {
+    "common":    { "weight": 0,  "min": 0, "max": 0 },
+    "uncommon":  { "weight": 0,  "min": 0, "max": 0 },
+    "rare":      { "weight": 20, "min": 0.05, "max": 0.10 },
+    "epic":      { "weight": 30, "min": 0.10, "max": 0.20 },
+    "legendary": { "weight": 30, "min": 0.20, "max": 0.35 },
+    "mythic":    { "weight": 20, "min": 0.35, "max": 0.50 }
+  }
+}

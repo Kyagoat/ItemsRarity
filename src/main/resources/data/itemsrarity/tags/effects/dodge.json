@@ -1,0 +1,14 @@
+{
+  "id": "dodge",
+  "name": "Dodge",
+  "type": "passive",
+  "tag": "itemsrarity:leggings",
+  "rarity_config": {
+    "common":    { "weight": 0,  "min": 0, "max": 0 },
+    "uncommon":  { "weight": 20, "min": 0.01, "max": 0.02 },
+    "rare":      { "weight": 30, "min": 0.02, "max": 0.04 },
+    "epic":      { "weight": 40, "min": 0.04, "max": 0.07 },
+    "legendary": { "weight": 30, "min": 0.07, "max": 0.10 },
+    "mythic":    { "weight": 20, "min": 0.10, "max": 0.15 }
+  }
+}

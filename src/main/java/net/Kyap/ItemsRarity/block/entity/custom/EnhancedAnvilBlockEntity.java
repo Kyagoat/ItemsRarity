@@ -47,15 +47,14 @@ public class EnhancedAnvilBlockEntity extends BlockEntity implements MenuProvide
         }
 
         @Override
-        public boolean isItemValid(int slot, ItemStack stack) {
+        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
             return switch (slot) {
-                case GEAR_SLOT -> isItemUpgradable(stack); // MIDDLE SLOT : Only upgradable items in the gear slot
+                case GEAR_SLOT -> isItemUpgradable(stack);
                 case RESOURCE_SLOT -> {
-                    // LEFT SLOT : items that can be used for upgrading
                     ItemStack gearItem = getStackInSlot(GEAR_SLOT);
                     yield isValidRepairResource(gearItem, stack);
                 }
-                case MOD_MATERIAL_SLOT -> isCustomModResource(stack); // RIGHT SLOT : custom mod resources
+                case MOD_MATERIAL_SLOT -> isCustomModResource(stack);
                 default -> super.isItemValid(slot, stack);
             };
         }
@@ -77,13 +76,13 @@ public class EnhancedAnvilBlockEntity extends BlockEntity implements MenuProvide
             @Override
             public void set(int index, int value) {
                 if (index == 0) {
-                    enhancementStatus = value; // Update enhancement status
+                    enhancementStatus = value;
                 }
             }
 
             @Override
             public int getCount() {
-                return 3; // Return the number of data entries
+                return 3;
             }
         };
     }
@@ -146,7 +145,7 @@ public class EnhancedAnvilBlockEntity extends BlockEntity implements MenuProvide
 
     public boolean performUpgrade() {
         if (!canUpgrade()) {
-            enhancementStatus = 2; // Failure
+            enhancementStatus = 2;
             setChanged();
             return false;
         }
@@ -162,9 +161,9 @@ public class EnhancedAnvilBlockEntity extends BlockEntity implements MenuProvide
         boolean upgradeSuccessful = UpgradeHelper.upgradeItem(gearItem, rolled);
         
         if (upgradeSuccessful) {
-            enhancementStatus = 1; // Animation de succès
+            enhancementStatus = 1;
         } else {
-            enhancementStatus = 2; // Animation d'erreur
+            enhancementStatus = 2;
         }
 
         resourceItem.shrink(1);
@@ -185,7 +184,7 @@ public class EnhancedAnvilBlockEntity extends BlockEntity implements MenuProvide
     }
 
     @Override
-    public void load(CompoundTag pTag) {
+    public void load(@NotNull CompoundTag pTag) {
         super.load(pTag);
         item_handler.deserializeNBT(pTag.getCompound("inventory"));
     }

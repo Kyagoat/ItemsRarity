@@ -2,7 +2,7 @@
   "id": "crit_chance",
   "name": "Crit Chance",
   "type": "on_hit",
-  "tag": "itemsrarity:sword",
+  "tag": "itemsrarity:swords",
   "rarity_config": {
     "common":    { "weight": 70,    "min": -0.40,  "max": -0.20 },
     "uncommon":  { "weight": 60,    "min": -0.30,  "max": 0 },
