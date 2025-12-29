@@ -52,7 +52,15 @@ public class TooltipHandler {
                  "health",
                  "speed",
                  "crit_damage",
-                 "armor_penetration" -> true;
+                 "armor_penetration",
+                 "armor_pierce",
+                 "life_steal",
+                 "dodge",
+                 "arrow_damage",
+                 "overheal",
+                 "mining_speed",
+                 "reach"
+                    -> true;
             default -> false;
         };
     }

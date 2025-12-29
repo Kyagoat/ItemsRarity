@@ -26,13 +26,13 @@ public class EffectRegistry {
         registerEffect("speed", new StandardAttributeEffect("speed"));
         registerEffect("health", new StandardAttributeEffect("health"));
         registerEffect("crit_damage", new StandardAttributeEffect("crit_damage"));
-        registerEffect("armor_penetration", new StandardAttributeEffect("armor_penetration"));
         registerEffect("durability", new DurabilityEffect());
         registerEffect("life_steal", new StandardAttributeEffect("life_steal"));
         registerEffect("dodge", new StandardAttributeEffect("dodge"));
         registerEffect("armor_pierce", new StandardAttributeEffect("armor_pierce"));
         registerEffect("arrow_damage", new StandardAttributeEffect("arrow_damage"));
         registerEffect("overheal", new StandardAttributeEffect("overheal"));
+        registerEffect("mining_speed", new StandardAttributeEffect("mining_speed"));
     }
 
     public static void applyEffectToItem(String effectId, ItemStack stack, CompoundTag tag) {

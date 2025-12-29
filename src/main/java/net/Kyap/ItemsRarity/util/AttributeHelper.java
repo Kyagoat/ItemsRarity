@@ -1,6 +1,8 @@
 package net.Kyap.ItemsRarity.util;
 
 import dev.shadowsoffire.attributeslib.api.ALObjects;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -34,6 +36,17 @@ public class AttributeHelper {
             }
         }
 
+        if (stack.getTag() != null && stack.getTag().contains("AttributeModifiers", 9)) {
+            ListTag modifiers = stack.getTag().getList("AttributeModifiers", 10);
+
+            for (int i = 0; i < modifiers.size(); i++) {
+                CompoundTag modifierTag = modifiers.getCompound(i);
+                if (modifierTag.getString("Name").equals(name)) {
+                    return;
+                }
+            }
+        }
+
         UUID uuid = UUID.randomUUID();
         AttributeModifier modifier = new AttributeModifier(uuid, name, value, operation);
         stack.addAttributeModifier(attribute, modifier, slot);
@@ -55,10 +68,6 @@ public class AttributeHelper {
 
             case "crit_damage":
                 applyAttribute(stack, ALObjects.Attributes.CRIT_DAMAGE.get(), "Rarity Crit Dmg Bonus", value, AttributeModifier.Operation.ADDITION);
-                break;
-
-            case "armor_penetration":
-                applyAttribute(stack, ALObjects.Attributes.ARMOR_PIERCE.get(), "Rarity Pierce Bonus", value, AttributeModifier.Operation.ADDITION);
                 break;
 
             case "speed":
@@ -83,6 +92,10 @@ public class AttributeHelper {
 
             case "overheal":
                 applyAttribute(stack, ALObjects.Attributes.OVERHEAL.get(), "Rarity Overheal", value, AttributeModifier.Operation.ADDITION);
+                break;
+
+            case "mining_speed":
+                applyAttribute(stack, ALObjects.Attributes.MINING_SPEED.get(), "Rarity Mining Speed", value, AttributeModifier.Operation.ADDITION);
                 break;
 
             default:

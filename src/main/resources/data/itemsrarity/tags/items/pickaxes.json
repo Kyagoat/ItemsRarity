@@ -1,0 +1,28 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:wooden_pickaxe",
+    "minecraft:stone_pickaxe",
+    "minecraft:iron_pickaxe",
+    "minecraft:golden_pickaxe",
+    "minecraft:diamond_pickaxe",
+    "minecraft:netherite_pickaxe",
+
+    "terramity:virentium_pickaxe",
+    "terramity:conductite_pickaxe",
+    "terramity:exodium_pickaxe",
+    "terramity:reverium_pickaxe",
+    "terramity:nyxium_pickaxe",
+    "terramity:void_pickaxe",
+    "terramity:iridium_pickaxe",
+    "terramity:hellspec_pickaxe",
+    "terramity:cosmilite_pickaxe",
+    "terramity:dimlite_pickaxe",
+    "terramity:onyx_pickaxe",
+    "terramity:topaz_pickaxe",
+    "terramity:sapphire_pickaxe",
+    "terramity:ruby_pickaxe",
+
+    "terramity:hellrock_gigaton_hammer"
+  ]
+}

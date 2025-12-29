@@ -1,0 +1,14 @@
+{
+  "id": "crit_damage",
+  "name": "Crit Damage",
+  "type": "on_hit",
+  "tag": "itemsrarity:swords",
+  "rarity_config": {
+    "common":    { "weight": 60, "min": -0.30, "max": -0.10 },
+    "uncommon":  { "weight": 50, "min": -0.10, "max": 0.05 },
+    "rare":      { "weight": 40, "min": 0.10, "max": 0.25 },
+    "epic":      { "weight": 30, "min": 0.25, "max": 0.50 },
+    "legendary": { "weight": 20, "min": 0.50, "max": 0.80 },
+    "mythic":    { "weight": 10, "min": 0.80, "max": 1.50 }
+  }
+}
